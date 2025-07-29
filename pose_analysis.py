@@ -20,17 +20,37 @@ def analyze_pose():
     print("🧍 Starting Pose Analysis...")
     print("Stand naturally and move around for movement analysis")
     print("Press 'q' to stop analysis")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+    mp_drawing = mp.solutions.drawing_utils
+    mp_pose = mp.solutions.pose
+
+=======
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
     
+<<<<<<< HEAD
+=======
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     pose = mp_pose.Pose(
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5
     )
     
     cap = cv2.VideoCapture(0)
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     if not cap.isOpened():
         print("❌ Error: Could not open camera")
         return None
@@ -42,16 +62,37 @@ def analyze_pose():
     movement_positions = []
     total_frames = 0
     good_posture_frames = 0
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     try:
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+            image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = pose.process(image_rgb)
+
+=======
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
             
             image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = pose.process(image_rgb)
             
+<<<<<<< HEAD
+=======
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
                 
@@ -95,7 +136,15 @@ def analyze_pose():
                 else:
                     feedback = "Fix your posture!"
                     color = (0, 0, 255)
+<<<<<<< HEAD
                 
+=======
+<<<<<<< HEAD
+
+=======
+                
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
                 # Record movement position (center of shoulders)
                 center_x = (left_shoulder[0] + right_shoulder[0]) / 2
                 center_y = (left_shoulder[1] + right_shoulder[1]) / 2
@@ -106,10 +155,23 @@ def analyze_pose():
                            cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
                 cv2.putText(frame, f"Posture Score: {posture_score:.0f}%", (30, 90),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+                # Draw pose landmarks
+                mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+=======
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
                 
                 # Draw pose landmarks
                 mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
             
+<<<<<<< HEAD
+=======
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
             total_frames += 1
             
             # Display frame counter
@@ -120,7 +182,15 @@ def analyze_pose():
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     except KeyboardInterrupt:
         print("\n⏹️  Analysis stopped by user")
     except Exception as e:
@@ -128,7 +198,15 @@ def analyze_pose():
     finally:
         cap.release()
         cv2.destroyAllWindows()
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> b012ac4 (Normalize line endings using .gitattributes)
     # Calculate final statistics
     if posture_scores:
         avg_posture_score = sum(posture_scores) / len(posture_scores)

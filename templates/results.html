@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - OratoCoach{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">Analysis Results</h1>
+                <p class="lead text-muted">
+                    Your presentation analysis is complete! Here are your detailed results.
+                </p>
+            </div>
+            
+            <!-- Executive Summary -->
+            <div class="results-section">
+                <h2 class="fw-bold mb-4">
+                    <i class="fas fa-chart-bar me-2 text-primary"></i>
+                    Executive Summary
+                </h2>
+                
+                <div class="row g-4">
+                    {% if results.get('face') and not results.face.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ "%.1f"|format(results.face.average_score) }}%</div>
+                            <div class="metric-label">Eye Contact Score</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if results.get('pose') and not results.pose.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ "%.1f"|format(results.pose.average_posture_score) }}%</div>
+                            <div class="metric-label">Posture Score</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if results.get('hands') and not results.hands.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ results.hands.total_gestures }}</div>
+                            <div class="metric-label">Gestures Detected</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Detailed Results -->
+            {% if results.get('face') and not results.face.get('error') %}
+            <div class="results-section">
+                <h3 class="fw-bold mb-4">
+                    <i class="fas fa-eye me-2 text-primary"></i>
+                    Face Analysis Results
+                </h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Key Metrics</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>Total Frames Analyzed:</strong> {{ results.face.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Good Eye Contact Frames:</strong> {{ results.face.good_eye_contact_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Eye Contact Percentage:</strong> {{ "%.1f"|format(results.face.eye_contact_percentage) }}%
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Assessment</h5>
+                        {% if results.face.average_score >= 80 %}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Excellent eye contact! You're engaging well with your audience.
+                            </div>
+                        {% elif results.face.average_score >= 60 %}
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Good eye contact, but there's room for improvement.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-times-circle me-2"></i>
+                                Eye contact needs improvement. Practice maintaining direct eye contact.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if results.get('hands') and not results.hands.get('error') %}
+            <div class="results-section">
+                <h3 class="fw-bold mb-4">
+                    <i class="fas fa-hands me-2 text-primary"></i>
+                    Hands Analysis Results
+                </h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Key Metrics</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>Total Frames Analyzed:</strong> {{ results.hands.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Frames with Hands Detected:</strong> {{ results.hands.frames_with_hands }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Total Gestures Detected:</strong> {{ results.hands.total_gestures }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Gesture Breakdown</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Gesture Type</th>
+                                        <th>Count</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for gesture, count in results.hands.gesture_counts.items() %}
+                                    <tr>
+                                        <td>{{ gesture.replace('_', ' ').title() }}</td>
+                                        <td>{{ count }}</td>
+                                        <td>{{ "%.1f"|format((count / results.hands.total_gestures) * 100) }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if results.get('pose') and not results.pose.get('error') %}
+            <div class="results-section">
+                <h3 class="fw-bold mb-4">
+                    <i class="fas fa-user-tie me-2 text-primary"></i>
+                    Pose Analysis Results
+                </h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Key Metrics</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>Total Frames Analyzed:</strong> {{ results.pose.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Good Posture Frames:</strong> {{ results.pose.good_posture_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Posture Percentage:</strong> {{ "%.1f"|format(results.pose.posture_percentage) }}%
+                            </li>
+                            <li class="mb-2">
+                                <strong>Movement Positions Recorded:</strong> {{ results.pose.movement_positions|length }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Assessment</h5>
+                        {% if results.pose.average_posture_score >= 80 %}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Excellent posture! You're presenting with confidence and authority.
+                            </div>
+                        {% elif results.pose.average_posture_score >= 60 %}
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Good posture, but try to maintain it more consistently.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-times-circle me-2"></i>
+                                Posture needs improvement. Focus on standing straight with shoulders back.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- PDF Report Viewer -->
+            <div class="results-section">
+                <h3 class="fw-bold mb-4">
+                    <i class="fas fa-file-pdf me-2 text-primary"></i>
+                    Complete Report
+                </h3>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Professional PDF Report Generated!</strong> View your comprehensive analysis report below or download it for future reference.
+                        </div>
+                        
+                        <!-- PDF Status -->
+                        <div id="pdf-status" class="alert alert-warning" style="display: none;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span id="pdf-status-text">Checking PDF status...</span>
+                        </div>
+                        
+                        <!-- PDF Viewer -->
+                        <div id="pdf-viewer-container" class="mt-4">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status" id="pdf-loading">
+                                    <span class="visually-hidden">Loading PDF...</span>
+                                </div>
+                                <p class="text-muted mt-2" id="pdf-status-message">Loading your report...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button class="btn btn-primary btn-lg" onclick="viewPdf()" id="view-pdf-btn" style="display: none;">
+                                <i class="fas fa-eye me-2"></i>View Full Report
+                            </button>
+                            <a href="{{ url_for('download_pdf') }}" class="btn btn-outline-primary btn-lg" id="download-btn" style="display: none;">
+                                <i class="fas fa-download me-2"></i>Download PDF
+                            </a>
+                            <button class="btn btn-outline-warning btn-lg" onclick="testPdf()" id="test-pdf-btn">
+                                <i class="fas fa-cog me-2"></i>Test PDF Generation
+                            </button>
+                            <a href="{{ url_for('analysis') }}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-redo me-2"></i>New Analysis
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Error Messages -->
+            {% for analysis_type, result in results.items() %}
+                {% if result.get('error') %}
+                <div class="alert alert-danger">
+                    <h5 class="fw-bold">
+                        {% if analysis_type == 'face' %}
+                            <i class="fas fa-eye me-2"></i>Face Analysis Error
+                        {% elif analysis_type == 'hands' %}
+                            <i class="fas fa-hands me-2"></i>Hands Analysis Error
+                        {% elif analysis_type == 'pose' %}
+                            <i class="fas fa-user-tie me-2"></i>Pose Analysis Error
+                        {% endif %}
+                    </h5>
+                    <p class="mb-0">{{ result.error }}</p>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- PDF Viewer Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">
+                    <i class="fas fa-file-pdf me-2"></i>OratoCoach Presentation Report
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe id="pdf-iframe" src="" width="100%" height="600px" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ url_for('download_pdf') }}" class="btn btn-primary">
+                    <i class="fas fa-download me-2"></i>Download Report
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Developer Credit -->
+<div class="text-center mt-4">
+    <hr class="my-4">
+    <p class="text-muted small">
+        <i class="fas fa-code me-2"></i>
+        Developed by <strong class="text-primary">Dasini Jayakody</strong> | 
+        <a href="mailto:dasinijayakody@gmail.com" class="text-muted">dasinijayakody@gmail.com</a>
+    </p>
+    <div class="mt-2">
+        <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="text-muted me-2" title="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/DasiniJayakody" target="_blank" class="text-muted me-2" title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="text-muted me-2" title="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="text-muted me-2" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if PDF exists
+    checkPdfExists();
+    
+    // Check every 3 seconds
+    setInterval(checkPdfExists, 3000);
+});
+
+function checkPdfExists() {
+    fetch('/api/pdf_exists')
+        .then(response => response.json())
+        .then(data => {
+            console.log('PDF status:', data);
+            
+            if (data.exists && data.size > 0) {
+                // PDF exists and has content
+                document.getElementById('view-pdf-btn').style.display = 'inline-block';
+                document.getElementById('download-btn').style.display = 'inline-block';
+                document.getElementById('pdf-loading').style.display = 'none';
+                document.getElementById('pdf-status').style.display = 'none';
+                document.getElementById('pdf-status-message').textContent = 'Your report is ready! Click "View Full Report" to see the complete analysis.';
+                document.getElementById('pdf-status-message').className = 'text-success mt-2 fw-bold';
+            } else {
+                // PDF doesn't exist or is empty
+                document.getElementById('pdf-loading').style.display = 'none';
+                document.getElementById('pdf-status').style.display = 'block';
+                document.getElementById('pdf-status-text').textContent = 'Report generation in progress... Please wait.';
+                document.getElementById('pdf-status-message').textContent = 'Generating your comprehensive report...';
+                document.getElementById('pdf-status-message').className = 'text-muted mt-2';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking PDF:', error);
+            document.getElementById('pdf-loading').style.display = 'none';
+            document.getElementById('pdf-status').style.display = 'block';
+            document.getElementById('pdf-status-text').textContent = 'Unable to check report status. Please try refreshing the page.';
+            document.getElementById('pdf-status-message').textContent = 'Error loading report status.';
+            document.getElementById('pdf-status-message').className = 'text-danger mt-2';
+        });
+}
+
+function viewPdf() {
+    const pdfUrl = '{{ url_for("view_pdf") }}';
+    console.log('Opening PDF at:', pdfUrl);
+    
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
+
+function testPdf() {
+    console.log('Testing PDF generation...');
+    
+    fetch('/test_pdf')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Test PDF result:', data);
+            
+            if (data.success) {
+                alert('✅ Test PDF created successfully! Check the "View Full Report" button.');
+                checkPdfExists(); // Refresh the status
+            } else {
+                alert('❌ Test PDF creation failed: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error testing PDF:', error);
+            alert('❌ Error testing PDF generation. Please check the console for details.');
+        });
+}
+
+// Auto-refresh PDF status every 5 seconds
+setInterval(checkPdfExists, 5000);
+</script>
+{% endblock %} 

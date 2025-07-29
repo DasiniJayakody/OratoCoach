@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}OratoCoach - AI Presentation & Public Speaking Coach{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="hero-title">
+                    <i class="fas fa-microphone-alt me-3"></i>
+                    OratoCoach
+                </h1>
+                <p class="hero-subtitle">
+                    AI Presentation & Public Speaking Coach 🗣️
+                </p>
+                <p class="hero-subtitle">
+                    Transform your presentation skills with AI-powered analysis of eye contact, gestures, and posture
+                </p>
+                <div class="mt-4">
+                    <a href="{{ url_for('analysis') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-play me-2"></i>Start Analysis
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-4 fw-bold mb-3">Why Choose OratoCoach?</h2>
+                <p class="lead text-muted">
+                    Our AI-powered platform provides comprehensive analysis to help you become a better presenter
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Eye Contact Analysis</h4>
+                    <p class="text-muted">
+                        Advanced AI analyzes your eye contact patterns, helping you maintain better audience engagement and build stronger connections.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Gesture Recognition</h4>
+                    <p class="text-muted">
+                        Intelligent gesture detection and classification to help you use hand movements more effectively in your presentations.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Posture & Movement</h4>
+                    <p class="text-muted">
+                        Comprehensive posture analysis and movement tracking to ensure you present with confidence and authority.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Visual Reports</h4>
+                    <p class="text-muted">
+                        Detailed visual reports with charts and heatmaps to help you understand your presentation patterns and areas for improvement.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Professional PDF Reports</h4>
+                    <p class="text-muted">
+                        Generate professional PDF reports that you can share with colleagues or use for your presentation portfolio.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Personalized Recommendations</h4>
+                    <p class="text-muted">
+                        Get personalized recommendations based on your analysis results to improve your presentation skills effectively.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-4 fw-bold mb-3">How It Works</h2>
+                <p class="lead text-muted">
+                    Get started with OratoCoach in just a few simple steps
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">1</h3>
+                    </div>
+                </div>
+                <h5 class="fw-bold">Select Analysis</h5>
+                <p class="text-muted">Choose which aspects of your presentation you want to analyze</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">2</h3>
+                    </div>
+                </div>
+                <h5 class="fw-bold">Present Naturally</h5>
+                <p class="text-muted">Present your content while our AI analyzes your performance</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">3</h3>
+                    </div>
+                </div>
+                <h5 class="fw-bold">Get Results</h5>
+                <p class="text-muted">Receive detailed analysis with visual charts and metrics</p>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">4</h3>
+                    </div>
+                </div>
+                <h5 class="fw-bold">Improve Skills</h5>
+                <p class="text-muted">Use personalized recommendations to enhance your presentation skills</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developer Credit Section -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="developer-credit">
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-code me-2"></i>
+                        Developed with passion by 
+                        <strong class="text-primary">Dasini Jayakody</strong>
+                    </p>
+                    <p class="text-muted small mb-0">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        BSc.(Hons) Computing & Information Systems | Sabaragamuwa University of Sri Lanka
+                    </p>
+                    <div class="mt-2">
+                        <a href="mailto:dasinijayakody@gmail.com" class="text-muted me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="text-muted me-3" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/DasiniJayakody" target="_blank" class="text-muted me-3" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="text-muted me-3" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="text-muted me-3" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-5 fw-bold mb-3">Ready to Transform Your Presentation Skills?</h2>
+                <p class="lead text-muted mb-4">
+                    Join thousands of professionals who have improved their public speaking with OratoCoach
+                </p>
+                <a href="{{ url_for('analysis') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket me-2"></i>Start Your Analysis Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 
