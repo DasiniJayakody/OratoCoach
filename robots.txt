@@ -2,7 +2,11 @@ User-agent: *
 Allow: /
 
 # Sitemap location
+<<<<<<< HEAD
 Sitemap: https://YOUR-ACTUAL-DOMAIN.com/sitemap.xml
+=======
+Sitemap: https://your-domain.com/sitemap.xml
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
 
 # Disallow admin or private areas (if any)
 Disallow: /data/

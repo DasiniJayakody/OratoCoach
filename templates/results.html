@@ -11,6 +11,7 @@
                 <p class="lead text-muted">
                     Your presentation analysis is complete! Here are your detailed results.
                 </p>
+<<<<<<< HEAD
                 
                 <!-- Analysis Summary -->
                 <div class="alert alert-info mt-3">
@@ -26,6 +27,8 @@
                         {% endif %}
                     </p>
                 </div>
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             </div>
             
             <!-- Executive Summary -->
@@ -36,28 +39,49 @@
                 </h2>
                 
                 <div class="row g-4">
+<<<<<<< HEAD
                     {% if results.has_face_data %}
                     <div class="col-md-4">
                         <div class="metric-card">
                             <div class="metric-value">{{ "%.1f"|format(results.face_data.eye_contact_percentage) }}%</div>
+=======
+                    {% if results.get('face') and not results.face.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ "%.1f"|format(results.face.average_score) }}%</div>
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="metric-label">Eye Contact Score</div>
                         </div>
                     </div>
                     {% endif %}
                     
+<<<<<<< HEAD
                     {% if results.has_pose_data %}
                     <div class="col-md-4">
                         <div class="metric-card">
                             <div class="metric-value">{{ "%.1f"|format(results.pose_data.average_posture_score) }}%</div>
+=======
+                    {% if results.get('pose') and not results.pose.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ "%.1f"|format(results.pose.average_posture_score) }}%</div>
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="metric-label">Posture Score</div>
                         </div>
                     </div>
                     {% endif %}
                     
+<<<<<<< HEAD
                     {% if results.has_hands_data %}
                     <div class="col-md-4">
                         <div class="metric-card">
                             <div class="metric-value">{{ results.hands_data.total_gestures }}</div>
+=======
+                    {% if results.get('hands') and not results.hands.get('error') %}
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ results.hands.total_gestures }}</div>
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="metric-label">Gestures Detected</div>
                         </div>
                     </div>
@@ -66,7 +90,11 @@
             </div>
             
             <!-- Detailed Results -->
+<<<<<<< HEAD
             {% if results.has_face_data %}
+=======
+            {% if results.get('face') and not results.face.get('error') %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             <div class="results-section">
                 <h3 class="fw-bold mb-4">
                     <i class="fas fa-eye me-2 text-primary"></i>
@@ -78,6 +106,7 @@
                         <h5 class="fw-bold">Key Metrics</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2">
+<<<<<<< HEAD
                                 <strong>Total Frames Analyzed:</strong> {{ results.face_data.total_frames }}
                             </li>
                             <li class="mb-2">
@@ -85,17 +114,34 @@
                             </li>
                             <li class="mb-2">
                                 <strong>Eye Contact Percentage:</strong> {{ "%.1f"|format(results.face_data.eye_contact_percentage) }}%
+=======
+                                <strong>Total Frames Analyzed:</strong> {{ results.face.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Good Eye Contact Frames:</strong> {{ results.face.good_eye_contact_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Eye Contact Percentage:</strong> {{ "%.1f"|format(results.face.eye_contact_percentage) }}%
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <h5 class="fw-bold">Assessment</h5>
+<<<<<<< HEAD
                         {% if results.face_data.eye_contact_percentage >= 80 %}
+=======
+                        {% if results.face.average_score >= 80 %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="alert alert-success">
                                 <i class="fas fa-check-circle me-2"></i>
                                 Excellent eye contact! You're engaging well with your audience.
                             </div>
+<<<<<<< HEAD
                         {% elif results.face_data.eye_contact_percentage >= 60 %}
+=======
+                        {% elif results.face.average_score >= 60 %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="alert alert-warning">
                                 <i class="fas fa-exclamation-triangle me-2"></i>
                                 Good eye contact, but there's room for improvement.
@@ -111,7 +157,11 @@
             </div>
             {% endif %}
             
+<<<<<<< HEAD
             {% if results.has_hands_data %}
+=======
+            {% if results.get('hands') and not results.hands.get('error') %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             <div class="results-section">
                 <h3 class="fw-bold mb-4">
                     <i class="fas fa-hands me-2 text-primary"></i>
@@ -123,6 +173,7 @@
                         <h5 class="fw-bold">Key Metrics</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2">
+<<<<<<< HEAD
                                 <strong>Total Frames Analyzed:</strong> {{ results.hands_data.total_frames }}
                             </li>
                             <li class="mb-2">
@@ -130,6 +181,15 @@
                             </li>
                             <li class="mb-2">
                                 <strong>Total Gestures Detected:</strong> {{ results.hands_data.total_gestures }}
+=======
+                                <strong>Total Frames Analyzed:</strong> {{ results.hands.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Frames with Hands Detected:</strong> {{ results.hands.frames_with_hands }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Total Gestures Detected:</strong> {{ results.hands.total_gestures }}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             </li>
                         </ul>
                     </div>
@@ -145,11 +205,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+<<<<<<< HEAD
                                     {% for gesture, count in results.hands_data.gesture_counts.items() %}
                                     <tr>
                                         <td>{{ gesture.replace('_', ' ').title() }}</td>
                                         <td>{{ count }}</td>
                                         <td>{{ "%.1f"|format((count / results.hands_data.total_gestures) * 100) }}%</td>
+=======
+                                    {% for gesture, count in results.hands.gesture_counts.items() %}
+                                    <tr>
+                                        <td>{{ gesture.replace('_', ' ').title() }}</td>
+                                        <td>{{ count }}</td>
+                                        <td>{{ "%.1f"|format((count / results.hands.total_gestures) * 100) }}%</td>
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -160,7 +228,11 @@
             </div>
             {% endif %}
             
+<<<<<<< HEAD
             {% if results.has_pose_data %}
+=======
+            {% if results.get('pose') and not results.pose.get('error') %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             <div class="results-section">
                 <h3 class="fw-bold mb-4">
                     <i class="fas fa-user-tie me-2 text-primary"></i>
@@ -172,6 +244,7 @@
                         <h5 class="fw-bold">Key Metrics</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2">
+<<<<<<< HEAD
                                 <strong>Total Frames Analyzed:</strong> {{ results.pose_data.total_frames }}
                             </li>
                             <li class="mb-2">
@@ -182,17 +255,37 @@
                             </li>
                             <li class="mb-2">
                                 <strong>Movement Positions Recorded:</strong> {{ results.pose_data.movement_positions|length }}
+=======
+                                <strong>Total Frames Analyzed:</strong> {{ results.pose.total_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Good Posture Frames:</strong> {{ results.pose.good_posture_frames }}
+                            </li>
+                            <li class="mb-2">
+                                <strong>Posture Percentage:</strong> {{ "%.1f"|format(results.pose.posture_percentage) }}%
+                            </li>
+                            <li class="mb-2">
+                                <strong>Movement Positions Recorded:</strong> {{ results.pose.movement_positions|length }}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <h5 class="fw-bold">Assessment</h5>
+<<<<<<< HEAD
                         {% if results.pose_data.average_posture_score >= 80 %}
+=======
+                        {% if results.pose.average_posture_score >= 80 %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="alert alert-success">
                                 <i class="fas fa-check-circle me-2"></i>
                                 Excellent posture! You're presenting with confidence and authority.
                             </div>
+<<<<<<< HEAD
                         {% elif results.pose_data.average_posture_score >= 60 %}
+=======
+                        {% elif results.pose.average_posture_score >= 60 %}
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             <div class="alert alert-warning">
                                 <i class="fas fa-exclamation-triangle me-2"></i>
                                 Good posture, but try to maintain it more consistently.
@@ -237,6 +330,7 @@
                                 <p class="text-muted mt-2" id="pdf-status-message">Loading your report...</p>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <!-- Action Buttons -->
                         <div class="d-flex justify-content-center gap-3 mt-4">
                             <button class="btn btn-primary btn-lg" onclick="viewPdf()" id="view-pdf-btn" style="display: none;">
@@ -244,6 +338,16 @@
                             </button>
                             <a href="{{ url_for('download_pdf') }}" class="btn btn-outline-primary btn-lg" id="download-btn" style="display: none;">
                                 <i class="fas fa-download me-2"></i>Download Report
+=======
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button class="btn btn-primary btn-lg" onclick="viewPdf()" id="view-pdf-btn" style="display: none;">
+                                <i class="fas fa-eye me-2"></i>View Full Report
+                            </button>
+                            <a href="{{ url_for('download_pdf') }}" class="btn btn-outline-primary btn-lg" id="download-btn" style="display: none;">
+                                <i class="fas fa-download me-2"></i>Download PDF
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                             </a>
                             <button class="btn btn-outline-warning btn-lg" onclick="testPdf()" id="test-pdf-btn">
                                 <i class="fas fa-cog me-2"></i>Test PDF Generation
@@ -252,6 +356,7 @@
                                 <i class="fas fa-redo me-2"></i>New Analysis
                             </a>
                         </div>
+<<<<<<< HEAD
                         <!-- Previous Report Section -->
                         <div class="mt-5" id="previous-report-section" style="display: none;">
                             <div class="alert alert-secondary text-center">
@@ -267,6 +372,8 @@
                                 </a>
                             </div>
                         </div>
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                     </div>
                 </div>
             </div>
@@ -348,11 +455,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check every 3 seconds
     setInterval(checkPdfExists, 3000);
+<<<<<<< HEAD
     checkPreviousPdfExists();
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
 });
 
 function checkPdfExists() {
     fetch('/api/pdf_exists')
+<<<<<<< HEAD
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -363,6 +474,13 @@ function checkPdfExists() {
             console.log('PDF status:', data);
             
             if (data.exists && data.file_size > 0) {
+=======
+        .then(response => response.json())
+        .then(data => {
+            console.log('PDF status:', data);
+            
+            if (data.exists && data.size > 0) {
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 // PDF exists and has content
                 document.getElementById('view-pdf-btn').style.display = 'inline-block';
                 document.getElementById('download-btn').style.display = 'inline-block';
@@ -370,12 +488,15 @@ function checkPdfExists() {
                 document.getElementById('pdf-status').style.display = 'none';
                 document.getElementById('pdf-status-message').textContent = 'Your report is ready! Click "View Full Report" to see the complete analysis.';
                 document.getElementById('pdf-status-message').className = 'text-success mt-2 fw-bold';
+<<<<<<< HEAD
                 
                 // Auto-generate PDF if it doesn't exist but analysis is complete
                 if (!data.exists) {
                     console.log('Auto-generating PDF...');
                     generatePdf();
                 }
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             } else {
                 // PDF doesn't exist or is empty
                 document.getElementById('pdf-loading').style.display = 'none';
@@ -383,12 +504,15 @@ function checkPdfExists() {
                 document.getElementById('pdf-status-text').textContent = 'Report generation in progress... Please wait.';
                 document.getElementById('pdf-status-message').textContent = 'Generating your comprehensive report...';
                 document.getElementById('pdf-status-message').className = 'text-muted mt-2';
+<<<<<<< HEAD
                 
                 // Try to generate PDF if it doesn't exist
                 if (!data.exists) {
                     console.log('Attempting to generate PDF...');
                     generatePdf();
                 }
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             }
         })
         .catch(error => {
@@ -401,6 +525,7 @@ function checkPdfExists() {
         });
 }
 
+<<<<<<< HEAD
 function generatePdf() {
     console.log('Generating PDF report...');
     
@@ -433,6 +558,8 @@ function generatePdf() {
         });
 }
 
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
 function viewPdf() {
     const pdfUrl = '{{ url_for("view_pdf") }}';
     console.log('Opening PDF at:', pdfUrl);
@@ -465,6 +592,7 @@ function testPdf() {
         });
 }
 
+<<<<<<< HEAD
 function checkPreviousPdfExists() {
     fetch('/download_previous_pdf', { method: 'HEAD' })
         .then(response => {
@@ -486,6 +614,8 @@ function viewPreviousPdf() {
     modal.show();
 }
 
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
 // Auto-refresh PDF status every 5 seconds
 setInterval(checkPdfExists, 5000);
 </script>

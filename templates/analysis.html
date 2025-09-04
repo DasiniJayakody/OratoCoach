@@ -122,6 +122,7 @@
                             <a id="download-report-btn" href="#" class="btn btn-outline-primary btn-lg" style="display: none;">
                                 <i class="fas fa-download me-2"></i>Download Report
                             </a>
+<<<<<<< HEAD
                             <button id="test-report-btn" class="btn btn-outline-warning btn-lg" onclick="testReport()" style="display: none;">
                                 <i class="fas fa-cog me-2"></i>Test Report
                             </button>
@@ -142,6 +143,8 @@
                                     <i class="fas fa-download me-2"></i>Download Previous Report
                                 </a>
                             </div>
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                         </div>
                     </div>
                 </div>
@@ -163,6 +166,7 @@
                 </div>
             </div>
             
+<<<<<<< HEAD
             <!-- 4. VIEW PREVIOUS REPORT SECTION -->
             <div class="card mt-5">
                 <div class="card-body text-center">
@@ -214,6 +218,29 @@
                         </div>
                     </div>
                     
+=======
+            <!-- 4. VIEW PREVIOUS REPORT SECTION (moved to bottom) -->
+            <div class="card mt-5">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-file-pdf me-2 text-primary"></i>
+                        View Previous Report
+                    </h5>
+                    <p class="card-text text-muted mb-3">
+                        View your previously generated presentation summary report
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button id="view-pdf-btn" class="btn btn-primary btn-lg" onclick="viewPdfReport()">
+                            <i class="fas fa-eye me-2"></i>View PDF Report
+                        </button>
+                        <a id="download-pdf-btn" href="/download_pdf" class="btn btn-outline-primary btn-lg" style="display: none;">
+                            <i class="fas fa-download me-2"></i>Download PDF
+                        </a>
+                        <button id="check-pdf-btn" class="btn btn-outline-info btn-lg" onclick="checkPdfStatus()">
+                            <i class="fas fa-info-circle me-2"></i>Check PDF Status
+                        </button>
+                    </div>
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                     <div id="pdf-status-message" class="mt-3"></div>
                 </div>
             </div>
@@ -258,9 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check PDF status on page load
     checkPdfStatus();
     
+<<<<<<< HEAD
     // Check for previous reports on page load
     checkPreviousReportExists();
     
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     // Handle card clicks
     analysisCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -308,8 +338,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(cb => cb.checked)
             .map(cb => cb.value);
         
+<<<<<<< HEAD
         console.log('🔍 Selected analyses:', selectedAnalyses);
         
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         if (selectedAnalyses.length === 0) {
             alert('Please select at least one analysis type.');
             return;
@@ -333,19 +366,28 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
+<<<<<<< HEAD
         const requestData = {
             analyses: selectedAnalyses
         };
         
         console.log('📤 Sending request data:', requestData);
         
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         // Start analysis
         fetch('/start_analysis', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+<<<<<<< HEAD
             body: JSON.stringify(requestData)
+=======
+            body: JSON.stringify({
+                analyses: selectedAnalyses
+            })
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         })
         .then(response => response.json())
         .then(data => {
@@ -494,11 +536,18 @@ function checkPdfExists() {
     fetch('/api/pdf_exists')
         .then(response => response.json())
         .then(data => {
+<<<<<<< HEAD
             if (data.exists && data.file_size > 0) {
                 // Show view and download buttons
                 document.getElementById('view-report-btn').style.display = 'inline-block';
                 document.getElementById('download-report-btn').style.display = 'inline-block';
                 document.getElementById('test-report-btn').style.display = 'inline-block';
+=======
+            if (data.exists && data.size > 0) {
+                // Show view and download buttons
+                document.getElementById('view-report-btn').style.display = 'inline-block';
+                document.getElementById('download-report-btn').style.display = 'inline-block';
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 document.getElementById('download-report-btn').href = '/download_pdf';
                 document.getElementById('modal-download-btn').href = '/download_pdf';
                 
@@ -508,9 +557,12 @@ function checkPdfExists() {
                 
                 // Also update the main PDF status
                 checkPdfStatus();
+<<<<<<< HEAD
                 
                 // Check for previous report
                 checkPreviousReportExists();
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             } else {
                 document.getElementById('report-status-text').textContent = 'Report generation in progress... Please wait.';
                 setTimeout(checkPdfExists, 2000);
@@ -521,6 +573,7 @@ function checkPdfExists() {
         });
 }
 
+<<<<<<< HEAD
 function checkPreviousReportExists() {
     fetch('/download_previous_pdf', { method: 'HEAD' })
         .then(response => {
@@ -548,6 +601,8 @@ function viewPreviousReport() {
     modal.show();
 }
 
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
 function viewReport() {
     const pdfUrl = '/view_pdf';
     document.getElementById('pdf-iframe').src = pdfUrl;
@@ -571,6 +626,7 @@ function resetAnalysis() {
     // Reset report buttons
     document.getElementById('view-report-btn').style.display = 'none';
     document.getElementById('download-report-btn').style.display = 'none';
+<<<<<<< HEAD
     document.getElementById('test-report-btn').style.display = 'none';
     document.getElementById('report-progress').style.display = 'none';
     document.getElementById('generate-report-btn').disabled = false;
@@ -660,6 +716,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for previous reports on page load
     checkPreviousReportExists();
     
+=======
+    document.getElementById('report-progress').style.display = 'none';
+    document.getElementById('generate-report-btn').disabled = false;
+}
+
+// Add developer credit
+document.addEventListener('DOMContentLoaded', function() {
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     // Add developer credit to the page
     const developerCredit = document.createElement('div');
     developerCredit.className = 'text-center mt-4';

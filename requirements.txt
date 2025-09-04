@@ -2,7 +2,17 @@ opencv-python==4.12.0.88
 mediapipe==0.10.14
 numpy==2.2.6
 matplotlib==3.10.3
+<<<<<<< HEAD
 fpdf==1.7.2
 flask==3.0.0 
 gunicorn==21.2.0
 requests==2.31.0
+=======
+<<<<<<< HEAD
+fpdf==1.7.2
+flask==3.0.0
+gunicorn==21.2.0 
+=======
+fpdf==1.7.2 
+>>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe

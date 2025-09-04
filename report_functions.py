@@ -159,6 +159,7 @@ class ProfessionalPDF(FPDF):
 def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
     """Generate professional PDF report with modern design"""
     try:
+<<<<<<< HEAD
         # Determine which analyses were performed
         analyses_performed = []
         if face_data and not face_data.get('error'):
@@ -168,6 +169,8 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         if pose_data and not pose_data.get('error'):
             analyses_performed.append("Body Posture Analysis")
         
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         # Create PDF with professional settings
         pdf = ProfessionalPDF()
         pdf.alias_nb_pages()
@@ -195,6 +198,7 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         pdf.cell(0, 20, "Presentation", ln=True, align='C')
         pdf.cell(0, 20, "Analysis Report", ln=True, align='C')
         
+<<<<<<< HEAD
         # Additional subtitle - make it dynamic based on analyses performed
         pdf.set_y(220)
         pdf.set_font("Arial", "I", 14)
@@ -205,6 +209,12 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         else:
             subtitle = "Comprehensive AI-Powered Assessment"
         pdf.cell(0, 10, subtitle, ln=True, align='C')
+=======
+        # Additional subtitle
+        pdf.set_y(220)
+        pdf.set_font("Arial", "I", 14)
+        pdf.cell(0, 10, "Comprehensive AI-Powered Assessment", ln=True, align='C')
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         
         # Date
         pdf.set_y(250)
@@ -216,6 +226,7 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         pdf.add_page()
         pdf.chapter_title("Executive Summary")
         
+<<<<<<< HEAD
         # Overview text - make it dynamic based on analyses performed
         pdf.set_font("Arial", "", 10)
         pdf.set_text_color(0, 0, 0)
@@ -228,12 +239,22 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             overview_text = "This comprehensive analysis evaluates your presentation performance across multiple dimensions including eye contact, hand gestures, body posture, and movement patterns. The results provide actionable insights to enhance your public speaking effectiveness and audience engagement."
         
         pdf.multi_cell(0, 6, overview_text)
+=======
+        # Overview text
+        pdf.set_font("Arial", "", 10)
+        pdf.set_text_color(0, 0, 0)
+        pdf.multi_cell(0, 6, "This comprehensive analysis evaluates your presentation performance across multiple dimensions including eye contact, hand gestures, body posture, and movement patterns. The results provide actionable insights to enhance your public speaking effectiveness and audience engagement.")
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         pdf.ln(8)
         
         # Key metrics section
         pdf.section_title("Key Performance Indicators")
         
+<<<<<<< HEAD
         # Calculate overall score only for performed analyses
+=======
+        # Calculate overall score
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         scores = []
         if face_data and not face_data.get('error'):
             scores.append(face_data.get('eye_contact_percentage', 0))
@@ -251,6 +272,7 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         x_start = pdf.get_x()
         y_start = pdf.get_y()
         
+<<<<<<< HEAD
         # Overall Score (only show if multiple analyses were performed)
         if len(analyses_performed) > 1:
             pdf.metric_box("Overall Score", f"{overall_score:.1f}%", "Combined performance")
@@ -260,22 +282,41 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             if len(analyses_performed) > 1:
                 pdf.set_x(x_start + 95)
                 pdf.set_y(y_start)
+=======
+        # Overall Score
+        pdf.metric_box("Overall Score", f"{overall_score:.1f}%", "Combined performance")
+        
+        # Eye Contact
+        if face_data and not face_data.get('error'):
+            pdf.set_x(x_start + 95)
+            pdf.set_y(y_start)
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             eye_contact = face_data.get('eye_contact_percentage', 0)
             pdf.metric_box("Eye Contact", f"{eye_contact:.1f}%", "Audience engagement")
         
         # Posture Score
         if pose_data and not pose_data.get('error'):
+<<<<<<< HEAD
             if len(analyses_performed) > 1:
                 pdf.set_x(x_start)
                 pdf.set_y(y_start + 35)
+=======
+            pdf.set_x(x_start)
+            pdf.set_y(y_start + 35)
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             posture = pose_data.get('average_posture_score', 0)
             pdf.metric_box("Posture Score", f"{posture:.1f}%", "Body language")
         
         # Gesture Count
         if hands_data and not hands_data.get('error'):
+<<<<<<< HEAD
             if len(analyses_performed) > 1:
                 pdf.set_x(x_start + 95)
                 pdf.set_y(y_start + 35)
+=======
+            pdf.set_x(x_start + 95)
+            pdf.set_y(y_start + 35)
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             gestures = hands_data.get('total_gestures', 0)
             pdf.metric_box("Gestures Used", f"{gestures}", "Hand movements")
         
@@ -301,7 +342,11 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         
         # Face Analysis Section
         if face_data and not face_data.get('error'):
+<<<<<<< HEAD
             pdf.section_title("Eye Contact Analysis")
+=======
+            pdf.section_title("1. Eye Contact Analysis")
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             
             # Data table
             pdf.set_font("Arial", "B", 9)
@@ -342,7 +387,11 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         
         # Hands Analysis Section
         if hands_data and not hands_data.get('error'):
+<<<<<<< HEAD
             pdf.section_title("Hand Gesture Analysis")
+=======
+            pdf.section_title("2. Hand Gesture Analysis")
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             
             # Data table
             pdf.set_font("Arial", "B", 9)
@@ -395,7 +444,11 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         
         # Pose Analysis Section
         if pose_data and not pose_data.get('error'):
+<<<<<<< HEAD
             pdf.section_title("Body Posture Analysis")
+=======
+            pdf.section_title("3. Body Posture Analysis")
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             
             # Data table
             pdf.set_font("Arial", "B", 9)
@@ -502,11 +555,18 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         pdf.multi_cell(0, 6, "Based on your analysis results, here are specific, actionable recommendations to enhance your presentation skills and improve your overall performance.")
         pdf.ln(8)
         
+<<<<<<< HEAD
         # Professional recommendations - only include relevant ones
         all_recommendations = [
             {
                 "title": "Eye Contact Enhancement",
                 "analysis": "Eye Contact Analysis",
+=======
+        # Professional recommendations
+        recommendations = [
+            {
+                "title": "Eye Contact Enhancement",
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 "tips": [
                     "Practice maintaining 3-5 seconds of eye contact with each audience member",
                     "Use the 'triangle technique' - look at three points in the audience",
@@ -515,7 +575,10 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             },
             {
                 "title": "Gesture Optimization",
+<<<<<<< HEAD
                 "analysis": "Hand Gesture Analysis",
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 "tips": [
                     "Use open palms to convey openness and trust",
                     "Point with your entire hand, not just your finger",
@@ -525,7 +588,10 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             },
             {
                 "title": "Posture Improvement",
+<<<<<<< HEAD
                 "analysis": "Body Posture Analysis",
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 "tips": [
                     "Stand with feet shoulder-width apart for stability",
                     "Keep your shoulders back and chest open",
@@ -535,7 +601,10 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             },
             {
                 "title": "Movement and Pacing",
+<<<<<<< HEAD
                 "analysis": "Body Posture Analysis",
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 "tips": [
                     "Move purposefully to emphasize transitions",
                     "Use the stage space effectively",
@@ -545,12 +614,15 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
             }
         ]
         
+<<<<<<< HEAD
         # Filter recommendations based on analyses performed
         recommendations = []
         for rec in all_recommendations:
             if rec["analysis"] in analyses_performed:
                 recommendations.append(rec)
         
+=======
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         for i, rec in enumerate(recommendations, 1):
             # Recommendation title
             pdf.set_font("Arial", "B", 11)
@@ -579,6 +651,7 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         pdf.set_text_color(0, 0, 0)  # Black color for content details
         week1_tasks = [
             "Record yourself presenting for 5 minutes daily",
+<<<<<<< HEAD
             "Review your analysis results and identify top 2 priorities"
         ]
         
@@ -590,6 +663,13 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         if "Hand Gesture Analysis" in analyses_performed:
             week1_tasks.append("Practice basic hand gestures in front of a mirror")
         
+=======
+            "Practice eye contact exercises in front of a mirror",
+            "Work on basic posture and breathing techniques",
+            "Review your analysis results and identify top 2 priorities"
+        ]
+        
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         for task in week1_tasks:
             pdf.cell(0, 6, f"   - {task}", ln=True)
         
@@ -604,6 +684,7 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         pdf.set_font("Arial", "", 9)
         pdf.set_text_color(0, 0, 0)  # Black color for content details
         week2_tasks = [
+<<<<<<< HEAD
             "Work on vocal variety and pacing",
             "Seek feedback from a colleague or mentor"
         ]
@@ -614,6 +695,14 @@ def generate_pdf_report(face_data=None, hands_data=None, pose_data=None):
         if "Body Posture Analysis" in analyses_performed:
             week2_tasks.append("Implement movement patterns during practice sessions")
         
+=======
+            "Practice specific gestures for different types of content",
+            "Work on vocal variety and pacing",
+            "Implement movement patterns during practice sessions",
+            "Seek feedback from a colleague or mentor"
+        ]
+        
+>>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
         for task in week2_tasks:
             pdf.cell(0, 6, f"   - {task}", ln=True)
         
