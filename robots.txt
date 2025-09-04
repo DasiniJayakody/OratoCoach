@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://YOUR-ACTUAL-DOMAIN.com/sitemap.xml
+
+# Disallow admin or private areas (if any)
+Disallow: /data/
+Disallow: /venv/
+Disallow: /__pycache__/
+
+# Allow important pages
+Allow: /
+Allow: /about
+Allow: /analysis
+Allow: /results 

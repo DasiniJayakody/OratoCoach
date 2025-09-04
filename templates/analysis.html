@@ -1,0 +1,696 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Selection - OratoCoach{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">Select Your Analysis</h1>
+                <p class="lead text-muted">
+                    Choose which aspects of your presentation you'd like to analyze. You can select one, multiple, or all analyses.
+                </p>
+            </div>
+            
+            <!-- 1. SELECTION SECTION -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="analysis-card text-center" data-analysis="face">
+                        <div class="analysis-icon text-primary">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">Face Analysis</h4>
+                        <p class="text-muted mb-3">Eye contact and facial engagement analysis</p>
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="checkbox" id="face-check" value="face">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="analysis-card text-center" data-analysis="hands">
+                        <div class="analysis-icon text-primary">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">Hands Analysis</h4>
+                        <p class="text-muted mb-3">Gesture detection and classification</p>
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="checkbox" id="hands-check" value="hands">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="analysis-card text-center" data-analysis="pose">
+                        <div class="analysis-icon text-primary">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">Pose Analysis</h4>
+                        <p class="text-muted mb-3">Posture and movement tracking</p>
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="checkbox" id="pose-check" value="pose">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mb-5">
+                <button id="start-analysis" class="btn btn-primary btn-lg" disabled>
+                    <i class="fas fa-play me-2"></i>Start Analysis
+                </button>
+            </div>
+            
+            <!-- 2. LOADING GENERATED REPORT SECTION -->
+            <div id="analysis-status" class="mt-5" style="display: none;">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="loading-spinner mb-3">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Analysis in Progress</h5>
+                        <p class="card-text text-muted">
+                            Please present naturally while our AI analyzes your performance. 
+                            This may take a few minutes depending on your selected analyses.
+                        </p>
+                        <div id="selected-analyses-display" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Report Generation Section -->
+            <div id="report-section" class="mt-5" style="display: none;">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <i class="fas fa-file-pdf me-2 text-primary"></i>
+                            Generate Your Report
+                        </h5>
+                        <p class="card-text text-muted mb-4">
+                            Your analysis is complete! Generate a comprehensive PDF report with your results and recommendations.
+                        </p>
+                        
+                        <!-- Report Generation Status -->
+                        <div id="report-status" class="mb-4">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span id="report-status-text">Ready to generate your report</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Report Generation Progress -->
+                        <div id="report-progress" class="mb-4" style="display: none;">
+                            <div class="progress mb-3" style="height: 25px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                     role="progressbar" style="width: 0%" id="progress-bar">
+                                    <span id="progress-text">0%</span>
+                                </div>
+                            </div>
+                            <p class="text-muted" id="progress-message">Initializing report generation...</p>
+                        </div>
+                        
+                        <!-- Report Actions -->
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <button id="generate-report-btn" class="btn btn-success btn-lg" onclick="generateReport()">
+                                <i class="fas fa-file-pdf me-2"></i>Generate Report
+                            </button>
+                            <button id="view-report-btn" class="btn btn-primary btn-lg" onclick="viewReport()" style="display: none;">
+                                <i class="fas fa-eye me-2"></i>View Report
+                            </button>
+                            <a id="download-report-btn" href="#" class="btn btn-outline-primary btn-lg" style="display: none;">
+                                <i class="fas fa-download me-2"></i>Download Report
+                            </a>
+                            <button id="test-report-btn" class="btn btn-outline-warning btn-lg" onclick="testReport()" style="display: none;">
+                                <i class="fas fa-cog me-2"></i>Test Report
+                            </button>
+                        </div>
+                        
+                        <!-- Previous Report Section -->
+                        <div id="previous-report-section" class="mt-4" style="display: none;">
+                            <hr class="my-4">
+                            <div class="alert alert-secondary text-center">
+                                <i class="fas fa-history me-2"></i>
+                                <strong>Previous Test Report Available!</strong> You can view or download your previous analysis report below.
+                            </div>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <button id="view-previous-report-btn" class="btn btn-outline-info btn-lg" onclick="viewPreviousReport()" style="display: none;">
+                                    <i class="fas fa-eye me-2"></i>View Previous Report
+                                </button>
+                                <a id="download-previous-report-btn" href="#" class="btn btn-outline-info btn-lg" style="display: none;">
+                                    <i class="fas fa-download me-2"></i>Download Previous Report
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. NEW ANALYSIS SECTION -->
+            <div class="card mt-5">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-redo me-2 text-secondary"></i>
+                        Start New Analysis
+                    </h5>
+                    <p class="card-text text-muted mb-3">
+                        Ready to analyze another presentation? Reset and start fresh.
+                    </p>
+                    <button id="new-analysis-btn" class="btn btn-outline-secondary btn-lg" onclick="resetAnalysis()">
+                        <i class="fas fa-redo me-2"></i>New Analysis
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 4. VIEW PREVIOUS REPORT SECTION -->
+            <div class="card mt-5">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-history me-2 text-primary"></i>
+                        View Previous Reports
+                    </h5>
+                    <p class="card-text text-muted mb-3">
+                        Access your previously generated presentation analysis reports
+                    </p>
+                    
+                    <!-- Report Status Display -->
+                    <div id="previous-report-status" class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <span id="previous-report-status-text">Checking for existing reports...</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <button id="view-pdf-btn" class="btn btn-primary btn-lg" onclick="viewPdfReport()">
+                            <i class="fas fa-eye me-2"></i>View Latest Report
+                        </button>
+                        <a id="download-pdf-btn" href="/download_pdf" class="btn btn-outline-primary btn-lg" style="display: none;">
+                            <i class="fas fa-download me-2"></i>Download Latest Report
+                        </a>
+                        <button id="check-pdf-btn" class="btn btn-outline-info btn-lg" onclick="checkPdfStatus()">
+                            <i class="fas fa-info-circle me-2"></i>Check Report Status
+                        </button>
+                        <button id="force-generate-btn" class="btn btn-outline-warning btn-lg" onclick="forceGenerateReport()">
+                            <i class="fas fa-magic me-2"></i>Force Generate Report
+                        </button>
+                    </div>
+                    
+                    <!-- Report Details -->
+                    <div id="report-details" class="mt-4" style="display: none;">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <i class="fas fa-file-pdf me-2 text-primary"></i>
+                                            Report Information
+                                        </h6>
+                                        <div id="report-info" class="text-start">
+                                            <!-- Report details will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="pdf-status-message" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PDF Viewer Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">
+                    <i class="fas fa-file-pdf me-2"></i>OratoCoach Presentation Report
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe id="pdf-iframe" src="" width="100%" height="600px" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="modal-download-btn" class="btn btn-primary">
+                    <i class="fas fa-download me-2"></i>Download Report
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const analysisCards = document.querySelectorAll('.analysis-card');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const startButton = document.getElementById('start-analysis');
+    const analysisStatus = document.getElementById('analysis-status');
+    const reportSection = document.getElementById('report-section');
+    const selectedAnalysesDisplay = document.getElementById('selected-analyses-display');
+    
+    // Check PDF status on page load
+    checkPdfStatus();
+    
+    // Check for previous reports on page load
+    checkPreviousReportExists();
+    
+    // Handle card clicks
+    analysisCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const checkbox = this.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            updateCardSelection(this, checkbox.checked);
+            updateStartButton();
+        });
+    });
+    
+    // Handle checkbox changes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const card = this.closest('.analysis-card');
+            updateCardSelection(card, this.checked);
+            updateStartButton();
+        });
+    });
+    
+    function updateCardSelection(card, selected) {
+        if (selected) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
+    }
+    
+    function updateStartButton() {
+        const selectedAnalyses = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        startButton.disabled = selectedAnalyses.length === 0;
+        
+        if (selectedAnalyses.length > 0) {
+            startButton.innerHTML = `<i class="fas fa-play me-2"></i>Start Analysis (${selectedAnalyses.length} selected)`;
+        } else {
+            startButton.innerHTML = `<i class="fas fa-play me-2"></i>Start Analysis`;
+        }
+    }
+    
+    // Handle start analysis
+    startButton.addEventListener('click', function() {
+        const selectedAnalyses = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        console.log('🔍 Selected analyses:', selectedAnalyses);
+        
+        if (selectedAnalyses.length === 0) {
+            alert('Please select at least one analysis type.');
+            return;
+        }
+        
+        // Show analysis status
+        analysisStatus.style.display = 'block';
+        startButton.disabled = true;
+        
+        // Display selected analyses
+        const analysisNames = {
+            'face': 'Face Analysis',
+            'hands': 'Hands Analysis',
+            'pose': 'Pose Analysis'
+        };
+        
+        selectedAnalysesDisplay.innerHTML = `
+            <div class="alert alert-info">
+                <strong>Selected Analyses:</strong><br>
+                ${selectedAnalyses.map(analysis => analysisNames[analysis]).join(', ')}
+            </div>
+        `;
+        
+        const requestData = {
+            analyses: selectedAnalyses
+        };
+        
+        console.log('📤 Sending request data:', requestData);
+        
+        // Start analysis
+        fetch('/start_analysis', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert('Error: ' + data.error);
+                analysisStatus.style.display = 'none';
+                startButton.disabled = false;
+            } else {
+                // Poll for completion
+                pollAnalysisStatus();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while starting the analysis.');
+            analysisStatus.style.display = 'none';
+            startButton.disabled = false;
+        });
+    });
+    
+    function pollAnalysisStatus() {
+        const pollInterval = setInterval(() => {
+            fetch('/analysis_status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.analysis_completed) {
+                        clearInterval(pollInterval);
+                        analysisStatus.style.display = 'none';
+                        reportSection.style.display = 'block';
+                        
+                        if (data.error) {
+                            document.getElementById('report-status-text').textContent = 'Analysis completed with errors: ' + data.error;
+                            document.getElementById('report-status').className = 'alert alert-warning';
+                        } else {
+                            document.getElementById('report-status-text').textContent = 'Analysis completed successfully! Ready to generate your report.';
+                            document.getElementById('report-status').className = 'alert alert-success';
+                        }
+                    } else if (data.error) {
+                        clearInterval(pollInterval);
+                        alert('Analysis error: ' + data.error);
+                        analysisStatus.style.display = 'none';
+                        startButton.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error polling status:', error);
+                });
+        }, 2000); // Poll every 2 seconds
+    }
+});
+
+// Global functions for PDF viewing and report generation
+function checkPdfStatus() {
+    const statusMessage = document.getElementById('pdf-status-message');
+    const downloadBtn = document.getElementById('download-pdf-btn');
+    
+    statusMessage.innerHTML = '<div class="spinner-border spinner-border-sm text-primary me-2"></div>Checking PDF status...';
+    
+    fetch('/api/pdf_exists')
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists && data.size > 0) {
+                statusMessage.innerHTML = '<div class="alert alert-success mb-0"><i class="fas fa-check-circle me-2"></i>PDF report is available! You can view or download it.</div>';
+                downloadBtn.style.display = 'inline-block';
+            } else {
+                statusMessage.innerHTML = '<div class="alert alert-warning mb-0"><i class="fas fa-exclamation-triangle me-2"></i>No PDF report found. Run an analysis first to generate a report.</div>';
+                downloadBtn.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking PDF:', error);
+            statusMessage.innerHTML = '<div class="alert alert-danger mb-0"><i class="fas fa-times-circle me-2"></i>Error checking PDF status.</div>';
+            downloadBtn.style.display = 'none';
+        });
+}
+
+function viewPdfReport() {
+    const pdfUrl = '/view_pdf';
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    document.getElementById('modal-download-btn').href = '/download_pdf';
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
+
+function generateReport() {
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const progressMessage = document.getElementById('progress-message');
+    const reportProgress = document.getElementById('report-progress');
+    const generateBtn = document.getElementById('generate-report-btn');
+    
+    // Show progress
+    reportProgress.style.display = 'block';
+    generateBtn.disabled = true;
+    
+    // Simulate progress
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        
+        progressBar.style.width = progress + '%';
+        progressText.textContent = Math.round(progress) + '%';
+        
+        if (progress < 30) {
+            progressMessage.textContent = 'Collecting analysis data...';
+        } else if (progress < 60) {
+            progressMessage.textContent = 'Generating charts and visualizations...';
+        } else if (progress < 90) {
+            progressMessage.textContent = 'Creating PDF report...';
+        } else {
+            progressMessage.textContent = 'Finalizing report...';
+        }
+        
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            progressMessage.textContent = 'Report generated successfully!';
+            
+            // Check if PDF was created
+            setTimeout(() => {
+                checkPdfExists();
+            }, 1000);
+        }
+    }, 200);
+    
+    // Actually generate the report
+    fetch('/generate_pdf')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('Report generated successfully');
+            } else {
+                console.error('Report generation failed:', data.message);
+                progressMessage.textContent = 'Report generation failed: ' + data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Error generating report:', error);
+            progressMessage.textContent = 'Error generating report. Please try again.';
+        });
+}
+
+function checkPdfExists() {
+    fetch('/api/pdf_exists')
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists && data.file_size > 0) {
+                // Show view and download buttons
+                document.getElementById('view-report-btn').style.display = 'inline-block';
+                document.getElementById('download-report-btn').style.display = 'inline-block';
+                document.getElementById('test-report-btn').style.display = 'inline-block';
+                document.getElementById('download-report-btn').href = '/download_pdf';
+                document.getElementById('modal-download-btn').href = '/download_pdf';
+                
+                // Update status
+                document.getElementById('report-status-text').textContent = 'Report generated successfully! You can now view or download it.';
+                document.getElementById('report-status').className = 'alert alert-success';
+                
+                // Also update the main PDF status
+                checkPdfStatus();
+                
+                // Check for previous report
+                checkPreviousReportExists();
+            } else {
+                document.getElementById('report-status-text').textContent = 'Report generation in progress... Please wait.';
+                setTimeout(checkPdfExists, 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking PDF:', error);
+        });
+}
+
+function checkPreviousReportExists() {
+    fetch('/download_previous_pdf', { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                // Show previous report section
+                document.getElementById('previous-report-section').style.display = 'block';
+                document.getElementById('view-previous-report-btn').style.display = 'inline-block';
+                document.getElementById('download-previous-report-btn').style.display = 'inline-block';
+                document.getElementById('download-previous-report-btn').href = '/download_previous_pdf';
+            } else {
+                document.getElementById('previous-report-section').style.display = 'none';
+            }
+        })
+        .catch(() => {
+            document.getElementById('previous-report-section').style.display = 'none';
+        });
+}
+
+function viewPreviousReport() {
+    const pdfUrl = '/view_previous_pdf';
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
+
+function viewReport() {
+    const pdfUrl = '/view_pdf';
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
+
+function resetAnalysis() {
+    // Reset checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.analysis-card').forEach(card => card.classList.remove('selected'));
+    
+    // Reset UI
+    document.getElementById('analysis-status').style.display = 'none';
+    document.getElementById('report-section').style.display = 'none';
+    document.getElementById('start-analysis').disabled = true;
+    document.getElementById('start-analysis').innerHTML = '<i class="fas fa-play me-2"></i>Start Analysis';
+    
+    // Reset report buttons
+    document.getElementById('view-report-btn').style.display = 'none';
+    document.getElementById('download-report-btn').style.display = 'none';
+    document.getElementById('test-report-btn').style.display = 'none';
+    document.getElementById('report-progress').style.display = 'none';
+    document.getElementById('generate-report-btn').disabled = false;
+    
+    // Reset previous report section
+    document.getElementById('previous-report-section').style.display = 'none';
+    document.getElementById('view-previous-report-btn').style.display = 'none';
+    document.getElementById('download-previous-report-btn').style.display = 'none';
+}
+
+function testReport() {
+    console.log('Testing report generation...');
+    
+    fetch('/test_pdf')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Test report result:', data);
+            
+            if (data.status === 'success') {
+                alert('✅ Test report created successfully! Check the "View Report" button.');
+                checkPdfExists(); // Refresh the status
+            } else {
+                alert('❌ Test report creation failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error testing report:', error);
+            alert('❌ Error testing report generation. Please check the console for details.');
+        });
+}
+
+function forceGenerateReport() {
+    console.log('Force generating report...');
+    
+    fetch('/force_generate_pdf')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Force generate result:', data);
+            
+            if (data.status === 'success') {
+                alert('✅ Report force generated successfully! Check the "View Latest Report" button.');
+                checkPdfStatus(); // Refresh the status
+            } else {
+                alert('❌ Force generation failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error force generating report:', error);
+            alert('❌ Error force generating report. Please check the console for details.');
+        });
+}
+
+function updatePreviousReportStatus(data) {
+    const statusElement = document.getElementById('previous-report-status');
+    const statusText = document.getElementById('previous-report-status-text');
+    const reportDetails = document.getElementById('report-details');
+    const reportInfo = document.getElementById('report-info');
+    
+    if (data.exists && data.file_size > 0) {
+        statusElement.className = 'alert alert-success mb-4';
+        statusText.textContent = `Latest report available (${data.file_size_mb} MB)`;
+        
+        // Show report details
+        reportDetails.style.display = 'block';
+        reportInfo.innerHTML = `
+            <p><strong>File Size:</strong> ${data.file_size_mb} MB</p>
+            <p><strong>Status:</strong> <span class="text-success">Available</span></p>
+            <p><strong>Last Updated:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Actions:</strong> View, Download, or Generate New</p>
+        `;
+        
+        // Show download button
+        document.getElementById('download-pdf-btn').style.display = 'inline-block';
+    } else {
+        statusElement.className = 'alert alert-warning mb-4';
+        statusText.textContent = 'No reports found. Generate a new analysis to create a report.';
+        reportDetails.style.display = 'none';
+        document.getElementById('download-pdf-btn').style.display = 'none';
+    }
+}
+
+// Initialize page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Check for existing reports on page load
+    checkPdfStatus();
+    
+    // Check for previous reports on page load
+    checkPreviousReportExists();
+    
+    // Add developer credit to the page
+    const developerCredit = document.createElement('div');
+    developerCredit.className = 'text-center mt-4';
+    developerCredit.innerHTML = `
+        <hr class="my-4">
+        <p class="text-muted small">
+            <i class="fas fa-code me-2"></i>
+            Developed by <strong class="text-primary">Dasini Jayakody</strong> | 
+            <a href="mailto:dasinijayakody@gmail.com" class="text-muted">dasinijayakody@gmail.com</a>
+        </p>
+        <div class="mt-2">
+            <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="text-muted me-2" title="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/DasiniJayakody" target="_blank" class="text-muted me-2" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="text-muted me-2" title="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="text-muted me-2" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    `;
+    
+    // Insert before the closing main tag
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+        mainElement.appendChild(developerCredit);
+    }
+});
+</script>
+{% endblock %} 
