@@ -236,6 +236,26 @@ OratoCoach/
 - Verify write permissions
 - Ensure FPDF is installed correctly
 
+### Fix: "Invalid requirement: '<<<<<<< HEAD'" when running pip
+
+- If pip reports a line like "<<<<<<< HEAD" in requirements.txt, your requirements file has merge conflict markers. Replace requirements.txt with a clean file (see requirements.txt in this repo) or remove the conflict markers manually.
+
+### Fix: ModuleNotFoundError: No module named 'flask'
+
+- Make sure your virtual environment is activated, then install dependencies:
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+- Alternatively install Flask directly:
+
+  ```bash
+  pip install Flask
+  ```
+
+- If you still see errors, confirm you're using the correct Python interpreter tied to your virtual environment.
+
 ## 🚀 Deployment
 
 ### Local Development
@@ -297,4 +317,3 @@ For support or questions:
 **OratoCoach** - Transform your presentation skills with AI-powered analysis! 🎤✨
 
 _Built with ❤️ for better public speaking_
-

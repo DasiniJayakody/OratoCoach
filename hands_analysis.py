@@ -65,15 +65,7 @@ def analyze_hands():
     print("✋ Starting Hands Analysis...")
     print("Make various hand gestures for analysis")
     print("Press 'q' to stop analysis")
-<<<<<<< HEAD
     
-=======
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands(
         max_num_hands=2,
@@ -81,19 +73,8 @@ def analyze_hands():
         min_tracking_confidence=0.5
     )
     mp_draw = mp.solutions.drawing_utils
-<<<<<<< HEAD
     
     cap = cv2.VideoCapture(0)
-=======
-<<<<<<< HEAD
-
-    cap = cv2.VideoCapture(0)
-=======
-    
-    cap = cv2.VideoCapture(0)
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     if not cap.isOpened():
         print("❌ Error: Could not open camera")
         return None
@@ -110,15 +91,7 @@ def analyze_hands():
             ret, frame = cap.read()
             if not ret:
                 break
-<<<<<<< HEAD
             
-=======
-<<<<<<< HEAD
-
-=======
-            
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = hands.process(image_rgb)
             
@@ -137,15 +110,7 @@ def analyze_hands():
                     
                     # Draw landmarks
                     mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-<<<<<<< HEAD
                     
-=======
-<<<<<<< HEAD
-
-=======
-                    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                     # Display gesture on frame
                     cv2.putText(frame, f"Gesture: {gesture}", (10, 30 + len(current_gestures) * 30),
                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
@@ -160,15 +125,7 @@ def analyze_hands():
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-<<<<<<< HEAD
     
-=======
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     except KeyboardInterrupt:
         print("\n⏹️  Analysis stopped by user")
     except Exception as e:

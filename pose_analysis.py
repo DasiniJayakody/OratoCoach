@@ -9,25 +9,7 @@ def calculate_angle(a, b, c):
     a = np.array(a)
     b = np.array(b)
     c = np.array(c)
-<<<<<<< HEAD
     
-    radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
-    angle = np.abs(radians * 180.0 / np.pi)
-    
-    if angle > 180.0:
-        angle = 360 - angle
-    
-    return angle
-
-def analyze_pose():
-    """Analyze body pose and posture"""
-    print("🧍 Starting Pose Analysis...")
-    print("Stand naturally and move around for movement analysis")
-    print("Press 'q' to stop analysis")
-    
-    mp_drawing = mp.solutions.drawing_utils
-    mp_pose = mp.solutions.pose
-=======
     ba = a - b
     bc = c - b
     cosine_angle = np.dot(ba, bc) / (np.linalg.norm(ba) * np.linalg.norm(bc))
@@ -39,31 +21,17 @@ def analyze_pose():
     print("🧍 Starting Pose Analysis...")
     print("Stand naturally and move around for movement analysis")
     print("Press 'q' to stop analysis")
-<<<<<<< HEAD
-
-    mp_drawing = mp.solutions.drawing_utils
-    mp_pose = mp.solutions.pose
-
-=======
     
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
     
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     pose = mp_pose.Pose(
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5
     )
     
     cap = cv2.VideoCapture(0)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
     
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     if not cap.isOpened():
         print("❌ Error: Could not open camera")
         return None
@@ -75,37 +43,16 @@ def analyze_pose():
     movement_positions = []
     total_frames = 0
     good_posture_frames = 0
-<<<<<<< HEAD
     
-=======
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     try:
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
             image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = pose.process(image_rgb)
-
-=======
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             
-            image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = pose.process(image_rgb)
-            
-<<<<<<< HEAD
-=======
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             if results.pose_landmarks:
                 landmarks = results.pose_landmarks.landmark
                 
@@ -149,15 +96,7 @@ def analyze_pose():
                 else:
                     feedback = "Fix your posture!"
                     color = (0, 0, 255)
-<<<<<<< HEAD
                 
-=======
-<<<<<<< HEAD
-
-=======
-                
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
                 # Record movement position (center of shoulders)
                 center_x = (left_shoulder[0] + right_shoulder[0]) / 2
                 center_y = (left_shoulder[1] + right_shoulder[1]) / 2
@@ -168,23 +107,10 @@ def analyze_pose():
                            cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
                 cv2.putText(frame, f"Posture Score: {posture_score:.0f}%", (30, 90),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-                # Draw pose landmarks
-                mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-
-=======
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
-                
                 # Draw pose landmarks
                 mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
             
-<<<<<<< HEAD
-=======
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
             total_frames += 1
             
             # Display frame counter
@@ -195,15 +121,6 @@ def analyze_pose():
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-<<<<<<< HEAD
-    
-=======
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     except KeyboardInterrupt:
         print("\n⏹️  Analysis stopped by user")
     except Exception as e:
@@ -211,15 +128,7 @@ def analyze_pose():
     finally:
         cap.release()
         cv2.destroyAllWindows()
-<<<<<<< HEAD
     
-=======
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 8ff58a98342d160ae3063a18ffc3552c44129637
->>>>>>> 4fccdfa9f4e19b993cceb4ac71bca2be1879a7fe
     # Calculate final statistics
     if posture_scores:
         avg_posture_score = sum(posture_scores) / len(posture_scores)
