@@ -5,307 +5,102 @@
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <!-- Hero Section -->
+        <div class="col-lg-8">
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold mb-3">About OratoCoach</h1>
                 <p class="lead text-muted">
-                    AI-Powered Presentation & Public Speaking Coach
+                    Empowering confident communication through AI-powered presentation analysis
                 </p>
             </div>
             
-            <!-- Mission Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-bullseye me-2 text-primary"></i>
-                    Our Mission
-                </h2>
-                <p class="lead">
-                    OratoCoach is dedicated to helping professionals, students, and public speakers improve their presentation skills through advanced AI-powered analysis. We believe that effective communication is a key skill in today's world, and our technology makes it easier than ever to identify areas for improvement and track progress over time.
-                </p>
-            </div>
-            
-            <!-- Technology Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-cogs me-2 text-primary"></i>
-                    Technology
-                </h2>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <h5 class="fw-bold">AI-Powered Analysis</h5>
-                        <p class="text-muted">
-                            Our platform uses cutting-edge computer vision and machine learning algorithms to analyze your presentation in real-time. We leverage MediaPipe, OpenCV, and custom AI models to provide accurate and detailed feedback.
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <h5 class="fw-bold">Real-Time Processing</h5>
-                        <p class="text-muted">
-                            All analysis is performed in real-time, providing immediate feedback and allowing you to see your performance metrics as you present. This instant feedback helps you make adjustments on the fly.
-                        </p>
-                    </div>
+            <div class="card mb-5">
+                <div class="card-body p-5">
+                    <h2 class="h3 fw-bold mb-4">Our Mission</h2>
+                    <p class="lead">
+                        OratoCoach is designed to help individuals improve their presentation and public speaking skills 
+                        through the power of artificial intelligence and computer vision technology.
+                    </p>
+                    <p>
+                        We believe that effective communication is a learnable skill, and with the right feedback and 
+                        practice, anyone can become a confident and engaging speaker. Our AI-powered analysis provides 
+                        objective, detailed insights that traditional coaching methods might miss.
+                    </p>
                 </div>
             </div>
             
-            <!-- Analysis Types Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-chart-line me-2 text-primary"></i>
-                    Analysis Types
-                </h2>
-                
-                <div class="row g-4">
-                    <div class="col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <div class="feature-icon">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <h5 class="card-title fw-bold">Face Analysis</h5>
-                                <p class="card-text text-muted">
-                                    Advanced eye contact tracking and facial engagement analysis. Our AI monitors your gaze patterns, head positioning, and facial expressions to provide insights into your audience engagement.
-                                </p>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check text-success me-2"></i>Eye contact quality</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Head positioning</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Facial engagement</li>
-                                </ul>
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-robot fa-3x"></i>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <div class="feature-icon">
-                                    <i class="fas fa-hands"></i>
-                                </div>
-                                <h5 class="card-title fw-bold">Hands Analysis</h5>
-                                <p class="card-text text-muted">
-                                    Intelligent gesture recognition and classification. Our system identifies different types of hand movements and provides feedback on gesture effectiveness and variety.
-                                </p>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check text-success me-2"></i>Gesture detection</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Movement classification</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Gesture variety analysis</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <div class="feature-icon">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <h5 class="card-title fw-bold">Pose Analysis</h5>
-                                <p class="card-text text-muted">
-                                    Comprehensive posture and movement tracking. Our AI analyzes your body alignment, posture quality, and movement patterns to ensure confident and authoritative presentation.
-                                </p>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check text-success me-2"></i>Posture quality</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Body alignment</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Movement tracking</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Features Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-star me-2 text-primary"></i>
-                    Key Features
-                </h2>
-                
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-chart-pie text-primary fs-4 me-3"></i>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold">Visual Reports</h5>
-                                <p class="text-muted">Detailed charts and heatmaps to visualize your presentation patterns and identify areas for improvement.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-file-pdf text-primary fs-4 me-3"></i>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold">Professional PDF Reports</h5>
-                                <p class="text-muted">Generate comprehensive PDF reports that you can share with colleagues or use for your portfolio.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-lightbulb text-primary fs-4 me-3"></i>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold">Personalized Recommendations</h5>
-                                <p class="text-muted">Get specific, actionable advice based on your analysis results to improve your presentation skills.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-cogs text-primary fs-4 me-3"></i>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold">Flexible Analysis</h5>
-                                <p class="text-muted">Choose which aspects to analyze - run individual analyses or comprehensive evaluations based on your needs.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- How to Use Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-play-circle me-2 text-primary"></i>
-                    How to Use OratoCoach
-                </h2>
-                
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mb-3">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                <h4 class="mb-0">1</h4>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold">Select Analysis</h5>
-                        <p class="text-muted small">Choose which aspects of your presentation you want to analyze</p>
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mb-3">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                <h4 class="mb-0">2</h4>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold">Present Naturally</h5>
-                        <p class="text-muted small">Present your content while our AI analyzes your performance</p>
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mb-3">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                <h4 class="mb-0">3</h4>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold">Review Results</h5>
-                        <p class="text-muted small">Get detailed analysis with visual charts and metrics</p>
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mb-3">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                <h4 class="mb-0">4</h4>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold">Download Report</h5>
-                        <p class="text-muted small">Download your comprehensive PDF report for future reference</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tips Section -->
-            <div class="results-section">
-                <h2 class="fw-bold mb-4">
-                    <i class="fas fa-tips me-2 text-primary"></i>
-                    Tips for Best Results
-                </h2>
-                
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <h5 class="fw-bold">Environment Setup</h5>
-                        <ul class="text-muted">
-                            <li>Ensure good lighting for accurate face detection</li>
-                            <li>Position yourself 2-6 feet from the camera</li>
-                            <li>Make sure your full body is visible for pose analysis</li>
-                            <li>Use a stable camera setup</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <h5 class="fw-bold">Presentation Tips</h5>
-                        <ul class="text-muted">
-                            <li>Present naturally as you would to a real audience</li>
-                            <li>Use a variety of hand gestures</li>
-                            <li>Maintain good posture throughout</li>
-                            <li>Practice your content beforehand</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Developer Credit Section -->
-            <div class="results-section text-center">
-                <h3 class="fw-bold mb-3">
-                    <i class="fas fa-code me-2 text-primary"></i>
-                    Meet the Developer
-                </h3>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="developer-profile">
-                            <h4 class="fw-bold text-primary mb-2">Dasini Jayakody</h4>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-graduation-cap me-2"></i>
-                                BSc.(Hons) Computing & Information Systems
+                            <h4 class="fw-bold mb-3">Advanced AI Technology</h4>
+                            <p class="text-muted">
+                                Built using MediaPipe and OpenCV, our system provides real-time analysis 
+                                of facial expressions, hand gestures, and body posture with high accuracy.
                             </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-university me-2"></i>
-                                Sabaragamuwa University of Sri Lanka
-                            </p>
-                            <p class="text-muted mb-4">
-                                Passionate about AI, computer vision, and creating innovative solutions that bridge technology and human interaction.
-                            </p>
-                            <div class="social-links">
-                                <a href="mailto:dasinijayakody@gmail.com" class="btn btn-outline-primary me-2" title="Email">
-                                    <i class="fas fa-envelope me-2"></i>Email
-                                </a>
-                                <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="btn btn-outline-primary me-2" title="LinkedIn">
-                                    <i class="fab fa-linkedin me-2"></i>LinkedIn
-                                </a>
-                                <a href="https://github.com/DasiniJayakody" target="_blank" class="btn btn-outline-primary me-2" title="GitHub">
-                                    <i class="fab fa-github me-2"></i>GitHub
-                                </a>
-                                <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="btn btn-outline-primary me-2" title="Facebook">
-                                    <i class="fab fa-facebook me-2"></i>Facebook
-                                </a>
-                                <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="btn btn-outline-primary me-2" title="Instagram">
-                                    <i class="fab fa-instagram me-2"></i>Instagram
-                                </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-shield-alt fa-3x"></i>
                             </div>
+                            <h4 class="fw-bold mb-3">Privacy & Security</h4>
+                            <p class="text-muted">
+                                All analysis is performed locally on your device. No video data is transmitted 
+                                or stored externally, ensuring complete privacy and security.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- CTA Section -->
-            <div class="results-section text-center">
-                <h2 class="fw-bold mb-4">Ready to Get Started?</h2>
+            <div class="card mb-5">
+                <div class="card-body p-5">
+                    <h2 class="h3 fw-bold mb-4">How It Works</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <h5 class="fw-bold text-primary">Face Analysis</h5>
+                            <ul class="list-unstyled">
+                                <li>• Eye contact tracking</li>
+                                <li>• Gaze direction analysis</li>
+                                <li>• Facial engagement scoring</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="fw-bold text-primary">Hands Analysis</h5>
+                            <ul class="list-unstyled">
+                                <li>• Gesture classification</li>
+                                <li>• Movement patterns</li>
+                                <li>• Usage frequency analysis</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="fw-bold text-primary">Pose Analysis</h5>
+                            <ul class="list-unstyled">
+                                <li>• Posture evaluation</li>
+                                <li>• Body alignment scoring</li>
+                                <li>• Movement tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <h2 class="h3 fw-bold mb-4">Ready to Get Started?</h2>
                 <p class="lead text-muted mb-4">
-                    Transform your presentation skills with AI-powered analysis
+                    Transform your presentation skills with AI-powered analysis and feedback.
                 </p>
                 <a href="{{ url_for('analysis') }}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket me-2"></i>Start Your Analysis
+                    <i class="fas fa-play me-2"></i>Start Analysis
                 </a>
             </div>
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

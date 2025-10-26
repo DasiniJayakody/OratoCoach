@@ -3,254 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>{% block title %}OratoCoach - AI-Powered Presentation Analysis & Public Speaking Coach{% endblock %}</title>
-    <meta name="description" content="{% block description %}Transform your presentation skills with AI-powered analysis. Get real-time feedback on eye contact, hand gestures, body posture, and speech patterns. Professional public speaking coach with computer vision technology.{% endblock %}">
-    <meta name="keywords" content="{% block keywords %}AI presentation coach, public speaking analysis, presentation skills improvement, speech analysis tool, presentation feedback, public speaking coach online, presentation evaluation, speech improvement tool, computer vision analysis{% endblock %}">
-    <meta name="author" content="Dasini Jayakody">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
-    <meta property="og:title" content="{% block og_title %}OratoCoach - AI-Powered Presentation Analysis{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Transform your presentation skills with AI-powered analysis. Get real-time feedback on eye contact, hand gestures, body posture, and speech patterns.{% endblock %}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:site_name" content="OratoCoach">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}OratoCoach - AI-Powered Presentation Analysis{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}Transform your presentation skills with AI-powered analysis. Get real-time feedback on eye contact, hand gestures, body posture, and speech patterns.{% endblock %}">
-    
-    <!-- Additional SEO Meta Tags -->
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    <meta name="distribution" content="global">
-    <meta name="rating" content="general">
-    <meta name="theme-color" content="#3b82f6">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{{ request.url }}">
+    <title>{% block title %}OratoCoach - AI Presentation Coach{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-    
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --dark-color: #1f2937;
-            --light-color: #f8fafc;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-color);
-            background-color: var(--light-color);
-        }
-        
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
-        }
-        
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: white !important;
-            transform: translateY(-1px);
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-        
-        .btn-primary {
-            background: var(--primary-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-        }
-        
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .footer {
-            background: var(--dark-color);
-            color: white;
-            padding: 50px 0 20px;
-            margin-top: 100px;
-        }
-        
-        .loading-spinner {
-            display: none;
-        }
-        
-        .analysis-card {
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .analysis-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-        
-        .analysis-card.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(37, 99, 235, 0.05);
-        }
-        
-        .analysis-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .results-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        
-        .metric-card {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        /* Footer Styles */
-        .footer {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-        
-        .footer h5, .footer h6 {
-            color: white;
-            font-weight: 600;
-        }
-        
-        .footer-divider {
-            border-color: rgba(255, 255, 255, 0.2);
-            margin: 20px 0;
-        }
-        
-        .social-links a {
-            display: inline-block;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-links a:hover {
-            transform: translateY(-2px);
-            color: #fbbf24 !important;
-        }
-        
-        .footer .text-muted {
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        
-        .footer strong {
-            color: #fbbf24;
-        }
-    </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-microphone-alt me-2"></i>
-                OratoCoach
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fas fa-microphone me-2"></i>OratoCoach
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -265,13 +36,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About
+                        <a class="nav-link" href="{{ url_for('analysis') }}">
+                            <i class="fas fa-chart-line me-1"></i>Analysis
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('analysis') }}">
-                            <i class="fas fa-chart-line me-1"></i>Analysis
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                            <i class="fas fa-info-circle me-1"></i>About
                         </a>
                     </li>
                 </ul>
@@ -285,64 +56,15 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h5><i class="fas fa-microphone-alt me-2"></i>OratoCoach</h5>
-                    <p class="text-muted">AI-Powered Presentation & Public Speaking Coach</p>
-                    <p class="text-muted small">Advanced computer vision technology for real-time presentation analysis</p>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h6 class="text-white mb-3">Developer</h6>
-                    <p class="text-muted mb-2">
-                        <i class="fas fa-code me-2"></i>
-                        <strong>Dasini Jayakody</strong>
-                    </p>
-                    <p class="text-muted small mb-2">
-                        <i class="fas fa-graduation-cap me-2"></i>
-                        BSc.(Hons) Computing & Information Systems
-                    </p>
-                    <p class="text-muted small mb-2">
-                        <i class="fas fa-university me-2"></i>
-                        Sabaragamuwa University of Sri Lanka
-                    </p>
-                </div>
-                <div class="col-lg-4 col-md-12 mb-4">
-                    <h6 class="text-white mb-3">Contact & Connect</h6>
-                    <div class="social-links">
-                        <a href="mailto:dasinijayakody@gmail.com" class="text-muted me-3" title="Email">
-                            <i class="fas fa-envelope fa-lg"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="text-muted me-3" title="LinkedIn">
-                            <i class="fab fa-linkedin fa-lg"></i>
-                        </a>
-                        <a href="https://github.com/DasiniJayakody" target="_blank" class="text-muted me-3" title="GitHub">
-                            <i class="fab fa-github fa-lg"></i>
-                        </a>
-                        <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="text-muted me-3" title="Facebook">
-                            <i class="fab fa-facebook fa-lg"></i>
-                        </a>
-                        <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="text-muted me-3" title="Instagram">
-                            <i class="fab fa-instagram fa-lg"></i>
-                        </a>
-                    </div>
-                    <p class="text-muted small mt-2">
-                        <i class="fas fa-envelope me-2"></i>
-                        dasinijayakody@gmail.com
-                    </p>
-                </div>
-            </div>
-            <hr class="footer-divider">
-            <div class="row">
                 <div class="col-md-6">
-                    <p class="text-muted small mb-0">
-                        <i class="fas fa-code me-2"></i>
-                        Developed with ❤️ by <strong>Dasini Jayakody</strong>
-                    </p>
+                    <h5><i class="fas fa-microphone me-2"></i>OratoCoach</h5>
+                    <p class="text-muted">AI-powered presentation analysis for better public speaking</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="text-muted small mb-0">&copy; 2024 OratoCoach. All rights reserved.</p>
+                    <p class="text-muted mb-0">© 2024 OratoCoach. Empowering confident communication.</p>
                 </div>
             </div>
         </div>
@@ -353,4 +75,4 @@
     
     {% block extra_js %}{% endblock %}
 </body>
-</html> 
+</html>

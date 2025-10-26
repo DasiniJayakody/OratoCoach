@@ -3,7 +3,7 @@ import json
 import sys
 import argparse
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, redirect, url_for
 import shutil
 import threading
 
@@ -71,6 +71,10 @@ def archive_current_pdf():
 def run_complete_analysis(selected_analyses):
     global analysis_results, analysis_status
     try:
+        # Ensure we have a valid list of analyses; default to all if empty
+        if not selected_analyses:
+            selected_analyses = ['face', 'hands', 'pose']
+        os.makedirs("data", exist_ok=True)
         analysis_status['is_running'] = True
         analysis_status['progress'] = 0
         total_steps = len(selected_analyses)
@@ -128,37 +132,106 @@ def about():
     """About page"""
     return render_template('about.html')
 
-@app.route('/start_analysis', methods=['POST'])
+@app.route('/start_analysis', methods=['GET', 'POST'])
 def start_analysis():
-    """Start the complete analysis process"""
-    global analysis_status, analysis_results
+	"""Start the complete analysis process (accepts JSON, form, or query params)."""
+	global analysis_status, analysis_results
 
-    if analysis_status['is_running']:
-        return jsonify({'status': 'error', 'message': 'Analysis already in progress'})
+	# If analysis already running -> for POST return JSON error, for GET redirect
+	if analysis_status['is_running']:
+		if request.method == 'POST':
+			return jsonify({'status': 'error', 'message': 'Analysis already in progress'}), 409
+		return redirect(url_for('analysis'))
 
-    data = request.get_json(silent=True) or {}
-    selected_analyses = data.get('analyses', [])
-    if not isinstance(selected_analyses, list):
-        selected_analyses = []
+	selected_analyses = None
 
-    if not selected_analyses:
-        return jsonify({'status': 'error', 'message': 'No analyses selected'})
+	# 1) JSON body: {"analyses": ["face","hands"]}
+	try:
+		json_data = request.get_json(silent=True)
+	except Exception:
+		json_data = None
+	if json_data and 'analyses' in json_data:
+		selected_analyses = json_data.get('analyses')
 
-    # Reset results
-    analysis_results = {
-        'face_data': None,
-        'hands_data': None,
-        'pose_data': None,
-        'analysis_completed': False,
-        'pdf_generated': False
-    }
+	# 2) Form data: support analyses[] or analyses and individual checkbox names
+	if selected_analyses is None and request.form:
+		# common: multiple inputs named analyses[] or analyses
+		form_list = request.form.getlist('analyses') or request.form.getlist('analyses[]')
+		if form_list:
+			selected_analyses = form_list
+		else:
+			# check for individual checkbox names 'face','hands','pose'
+			picked = []
+			for name in ('face', 'hands', 'pose'):
+				v = request.form.get(name)
+				if v and str(v).lower() in ('on', 'true', '1', 'yes'):
+					picked.append(name)
+			if picked:
+				selected_analyses = picked
+			else:
+				# fallback: single string in 'analyses' field (comma-separated or JSON string)
+				form_val = request.form.get('analyses')
+				if form_val:
+					try:
+						import ast
+						parsed = ast.literal_eval(form_val)
+						if isinstance(parsed, (list, tuple)):
+							selected_analyses = list(parsed)
+						else:
+							selected_analyses = [str(parsed)]
+					except Exception:
+						selected_analyses = [s.strip() for s in form_val.split(',') if s.strip()]
 
-    # Start analysis in background thread and pass selected analyses
-    thread = threading.Thread(target=run_complete_analysis, args=(selected_analyses,))
-    thread.daemon = True
-    thread.start()
+	# 3) Query string: /start_analysis?analyses=face,hands  or analyses[]=face
+	if selected_analyses is None:
+		args_list = request.args.getlist('analyses') or request.args.getlist('analyses[]')
+		if args_list:
+			selected_analyses = args_list
+		else:
+			q = request.args.get('analyses')
+			if q:
+				selected_analyses = [s.strip() for s in q.split(',') if s.strip()]
 
-    return jsonify({'status': 'success', 'message': 'Analysis started successfully'})
+	# Default to all analyses so the button works even if frontend doesn't send params
+	if not selected_analyses:
+		selected_analyses = ['face', 'hands', 'pose']
+
+	# Normalize: strings, lowercase, deduplicate while preserving order
+	if isinstance(selected_analyses, str):
+		selected_analyses = [selected_analyses]
+	normalized = []
+	for s in selected_analyses:
+		try:
+			sval = str(s).lower().strip()
+		except Exception:
+			continue
+		if sval and sval not in normalized:
+			normalized.append(sval)
+	selected_analyses = normalized or ['face', 'hands', 'pose']
+
+	print(f"Start analysis requested. Resolved analyses: {selected_analyses}")
+
+	# Reset results
+	analysis_results = {
+		'face_data': None,
+		'hands_data': None,
+		'pose_data': None,
+		'analysis_completed': False,
+		'pdf_generated': False
+	}
+
+	# Start analysis in background thread and pass selected analyses
+	thread = threading.Thread(target=run_complete_analysis, args=(selected_analyses,))
+	thread.daemon = True
+	thread.start()
+
+	# Behavior:
+	# - For POST (AJAX/fetch or form POST) return JSON so frontend JS receives predictable response.
+	# - For GET (plain navigation) redirect to /analysis so UI continues.
+	if request.method == 'GET':
+		return redirect(url_for('analysis'))
+
+	return jsonify({'status': 'success', 'message': 'Analysis started successfully', 'analyses': selected_analyses})
 
 @app.route('/analysis_status')
 def get_analysis_status():
