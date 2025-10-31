@@ -1,9 +1,5 @@
 # 🎤 OratoCoach - AI Presentation & Public Speaking Coach
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
-[![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 **OratoCoach** is an AI-powered web application that analyzes your presentation skills in real-time, providing comprehensive feedback on eye contact, gestures, and posture. Perfect for public speakers, presenters, and anyone looking to improve their communication skills.
 
 ## ✨ Features
@@ -65,81 +61,38 @@
 
 ## 📱 How to Use
 
-### 1. Home Page
+- 1. Home Page
 
-- **Welcome**: Learn about OratoCoach's capabilities
-- **Features**: Explore different analysis types
-- **Get Started**: Click "Start Analysis" to begin
+  - **Welcome**: Learn about OratoCoach's capabilities
+  - **Features**: Explore different analysis types
+  - **Get Started**: Click "Start Analysis" to begin
 
-### 2. Analysis Selection
+- 2. Analysis Selection
 
-- **Choose Analyses**: Select one, multiple, or all analysis types
-- **Interactive Cards**: Click on analysis cards to select/deselect
-- **View Previous Reports**: Access previously generated PDF reports
-- **Start Analysis**: Click the button to begin your presentation
+  - **Choose Analyses**: Select one, multiple, or all analysis types
+  - **Interactive Cards**: Click on analysis cards to select/deselect
+  - **View Previous Reports**: Access previously generated PDF reports
+  - **Start Analysis**: Click the button to begin your presentation
 
-### 3. Analysis Process
+- 3. Analysis Process
 
-- **Camera Access**: Allow camera access when prompted
-- **Present Naturally**: Present your content while AI analyzes
-- **Real-time Feedback**: See analysis progress in real-time
-- **Complete Analysis**: Press 'q' to stop when finished
+  - **Camera Access**: Allow camera access when prompted
+  - **Present Naturally**: Present your content while AI analyzes
+  - **Real-time Feedback**: See analysis progress in real-time
+  - **Complete Analysis**: Press 'q' to stop when finished
 
-### 4. Results & Reports
+  - Switching analyses while the camera is open
+    - If you start an analysis and later want to run a different analysis, press `q` during the live camera session to stop the current analysis and return to the analysis selection screen. From there you can choose another analysis (face, hands, or pose) and restart the camera for that analysis.
+    - Example flow:
+      1. Start Face Analysis (camera opens).
+      2. Press `q` to stop Face Analysis and return to selection.
+      3. Select Hands Analysis and start camera again.
 
-- **Executive Summary**: Key metrics at a glance
-- **Detailed Results**: Comprehensive analysis for each type
-- **Generate Report**: Create professional PDF report
-- **View/Download**: Access your report in the browser or download
-
-## 🏗️ Project Structure
-
-```
-OratoCoach/
-├── app.py                 # Main Flask web application
-├── face_analysis.py      # Face analysis module
-├── hands_analysis.py     # Hands analysis module
-├── pose_analysis.py      # Pose analysis module
-├── requirements.txt      # Python dependencies
-├── README.md            # This documentation
-├── templates/           # HTML templates
-│   ├── base.html        # Base template with navigation
-│   ├── index.html       # Home page
-│   ├── about.html       # About page
-│   ├── analysis.html    # Analysis selection page
-│   └── results.html     # Results display page
-├── static/              # Static files
-│   └── css/
-│       └── custom.css   # Custom styles and animations
-└── data/               # Generated data and reports
-    ├── *.json          # Analysis statistics
-    ├── *.png           # Generated charts
-    └── *.pdf           # PDF reports
-```
-
-## 🔧 Technical Details
-
-### Backend (Flask)
-
-- **Framework**: Flask 3.0.0
-- **Sessions**: User session management
-- **Background Processing**: Threading for analysis
-- **API Endpoints**: RESTful API for frontend communication
-- **File Handling**: Secure file uploads and downloads
-
-### Frontend
-
-- **Bootstrap 5**: Responsive grid and components
-- **Font Awesome**: Professional icons
-- **Custom CSS**: Enhanced styling and animations
-- **JavaScript**: Interactive functionality and AJAX
-
-### Analysis Integration
-
-- **MediaPipe**: AI-powered computer vision
-- **OpenCV**: Camera handling and image processing
-- **Matplotlib**: Chart generation
-- **FPDF**: PDF report creation
+- 4. Results & Reports
+  - **Executive Summary**: Key metrics at a glance
+  - **Detailed Results**: Comprehensive analysis for each selected type
+  - **Generate Report**: Create professional PDF report (only includes the analyses you selected)
+  - **View/Download**: Access your report in the browser or download
 
 ## 📊 Analysis Types
 
@@ -164,22 +117,29 @@ OratoCoach/
 - **Stability Assessment**: Measures presentation stability and confidence
 - **Metrics**: Posture score, good posture frames, movement data
 
-## 🎯 Best Practices
+## 🔧 Technical Details
 
-### Environment Setup
+### Backend (Flask)
 
-- **Lighting**: Ensure good, even lighting for best detection
-- **Distance**: Position 2-6 feet from camera for optimal analysis
-- **Background**: Use a clean, uncluttered background
-- **Stability**: Use a stable camera setup to avoid movement artifacts
+- **Framework**: Flask 3.0.0
+- **Sessions**: User session management
+- **Background Processing**: Threading for analysis
+- **API Endpoints**: RESTful API for frontend communication
+- **File Handling**: Secure file uploads and downloads
 
-### Presentation Tips
+### Frontend
 
-- **Natural Delivery**: Present as you would to a real audience
-- **Gesture Variety**: Use different hand movements and gestures
-- **Good Posture**: Maintain confident, upright body language
-- **Eye Contact**: Look directly at the camera for best results
-- **Practice**: Rehearse your content beforehand for better analysis
+- **Bootstrap 5**: Responsive grid and components
+- **Font Awesome**: Professional icons
+- **Custom CSS**: Enhanced styling and animations
+- **JavaScript**: Interactive functionality and AJAX
+
+### Analysis Integration
+
+- **MediaPipe**: AI-powered computer vision
+- **OpenCV**: Camera handling and image processing
+- **Matplotlib**: Chart generation
+- **FPDF**: PDF report creation
 
 ## 🔒 Security & Privacy
 
@@ -292,9 +252,6 @@ For production deployment, consider:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
@@ -316,4 +273,3 @@ For support or questions:
 
 **OratoCoach** - Transform your presentation skills with AI-powered analysis! 🎤✨
 
-_Built with ❤️ for better public speaking_
