@@ -122,26 +122,6 @@
                             <a id="download-report-btn" href="#" class="btn btn-outline-primary btn-lg" style="display: none;">
                                 <i class="fas fa-download me-2"></i>Download Report
                             </a>
-                            <button id="test-report-btn" class="btn btn-outline-warning btn-lg" onclick="testReport()" style="display: none;">
-                                <i class="fas fa-cog me-2"></i>Test Report
-                            </button>
-                        </div>
-                        
-                        <!-- Previous Report Section -->
-                        <div id="previous-report-section" class="mt-4" style="display: none;">
-                            <hr class="my-4">
-                            <div class="alert alert-secondary text-center">
-                                <i class="fas fa-history me-2"></i>
-                                <strong>Previous Test Report Available!</strong> You can view or download your previous analysis report below.
-                            </div>
-                            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                                <button id="view-previous-report-btn" class="btn btn-outline-info btn-lg" onclick="viewPreviousReport()" style="display: none;">
-                                    <i class="fas fa-eye me-2"></i>View Previous Report
-                                </button>
-                                <a id="download-previous-report-btn" href="#" class="btn btn-outline-info btn-lg" style="display: none;">
-                                    <i class="fas fa-download me-2"></i>Download Previous Report
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -217,287 +197,327 @@
 
 {% block extra_js %}
 <script>
-/* Clean, single script to manage selection and start-analysis behavior.
-   Replaces the previous duplicated / conflicted script block. */
-document.addEventListener('DOMContentLoaded', () => {
-    // Elements
-    const analysisCards = Array.from(document.querySelectorAll('.analysis-card'));
-    const checkboxes = Array.from(document.querySelectorAll('.analysis-card input[type="checkbox"], input[type="checkbox"]'));
+document.addEventListener('DOMContentLoaded', function() {
+    const analysisCards = document.querySelectorAll('.analysis-card');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const startButton = document.getElementById('start-analysis');
     const analysisStatus = document.getElementById('analysis-status');
     const reportSection = document.getElementById('report-section');
     const selectedAnalysesDisplay = document.getElementById('selected-analyses-display');
-
-    // Helpers
-    function getSelectedAnalyses() {
-        return Array.from(document.querySelectorAll('.analysis-card input[type="checkbox"]'))
+    
+    // Check PDF status on page load
+    checkPdfStatus();
+    
+    // Handle card clicks
+    analysisCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const checkbox = this.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            updateCardSelection(this, checkbox.checked);
+            updateStartButton();
+        });
+    });
+    
+    // Handle checkbox changes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const card = this.closest('.analysis-card');
+            updateCardSelection(card, this.checked);
+            updateStartButton();
+        });
+    });
+    
+    function updateCardSelection(card, selected) {
+        if (selected) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
+    }
+    
+    function updateStartButton() {
+        const selectedAnalyses = Array.from(checkboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
+        
+        startButton.disabled = selectedAnalyses.length === 0;
+        
+        if (selectedAnalyses.length > 0) {
+            startButton.innerHTML = `<i class="fas fa-play me-2"></i>Start Analysis (${selectedAnalyses.length} selected)`;
+        } else {
+            startButton.innerHTML = `<i class="fas fa-play me-2"></i>Start Analysis`;
+        }
     }
-
-    function setCardSelected(card, selected) {
-        const cb = card.querySelector('input[type="checkbox"]');
-        if (cb) cb.checked = !!selected;
-        card.classList.toggle('selected', !!selected);
-    }
-
-    function updateStartButton() {
-        const selected = getSelectedAnalyses();
-        startButton.disabled = (selected.length === 0);
-        startButton.innerHTML = selected.length > 0
-            ? `<i class="fas fa-play me-2"></i>Start Analysis (${selected.length} selected)`
-            : `<i class="fas fa-play me-2"></i>Start Analysis`;
-    }
-
-    // Init: ensure UI consistent
-    analysisCards.forEach(card => {
-        const cb = card.querySelector('input[type="checkbox"]');
-        const initChecked = cb && cb.checked;
-        card.classList.toggle('selected', !!initChecked);
-    });
-    updateStartButton();
-
-    // Card click toggles checkbox (ignore clicks directly on checkbox to avoid double toggle)
-    analysisCards.forEach(card => {
-        card.addEventListener('click', (ev) => {
-            if (ev.target && ev.target.tagName === 'INPUT') return;
-            const cb = card.querySelector('input[type="checkbox"]');
-            const newVal = !(cb && cb.checked);
-            setCardSelected(card, newVal);
-            updateStartButton();
-        });
-    });
-
-    // Checkbox change updates card state and start button
-    checkboxes.forEach(cb => {
-        cb.addEventListener('change', (ev) => {
-            const card = ev.target.closest('.analysis-card');
-            if (card) card.classList.toggle('selected', ev.target.checked);
-            updateStartButton();
-        });
-    });
-
-    // Start analysis click handler
-    startButton.addEventListener('click', () => {
-        const selected = getSelectedAnalyses();
-        if (selected.length === 0) {
+    
+    // Handle start analysis
+    startButton.addEventListener('click', function() {
+        const selectedAnalyses = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        if (selectedAnalyses.length === 0) {
             alert('Please select at least one analysis type.');
             return;
         }
-
-        // UI: show status
+        
+        // Show analysis status
         analysisStatus.style.display = 'block';
         startButton.disabled = true;
-
-        const analysisNames = { face: 'Face Analysis', hands: 'Hands Analysis', pose: 'Pose Analysis' };
+        
+        // Display selected analyses
+        const analysisNames = {
+            'face': 'Face Analysis',
+            'hands': 'Hands Analysis',
+            'pose': 'Pose Analysis'
+        };
+        
         selectedAnalysesDisplay.innerHTML = `
             <div class="alert alert-info">
                 <strong>Selected Analyses:</strong><br>
-                ${selected.map(a => analysisNames[a] || a).join(', ')}
-            </div>`;
-
-        // Start backend analysis
+                ${selectedAnalyses.map(analysis => analysisNames[analysis]).join(', ')}
+            </div>
+        `;
+        
+        // Start analysis
         fetch('/start_analysis', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ analyses: selected })
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                analyses: selectedAnalyses
+            })
         })
-        .then(resp => resp.json())
+        .then(response => response.json())
         .then(data => {
-            if (data && data.status === 'success') {
-                pollAnalysisStatus();
-            } else {
+            if (data.error) {
+                alert('Error: ' + data.error);
                 analysisStatus.style.display = 'none';
                 startButton.disabled = false;
-                const msg = (data && data.message) ? data.message : 'Failed to start analysis';
-                alert('Error starting analysis: ' + msg);
+            } else {
+                // Poll for completion
+                pollAnalysisStatus();
             }
         })
-        .catch(err => {
-            console.error('Start analysis error:', err);
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while starting the analysis.');
             analysisStatus.style.display = 'none';
             startButton.disabled = false;
-            alert('An error occurred while starting the analysis.');
         });
     });
-
-    // Poll analysis status
-    let pollInterval = null;
+    
     function pollAnalysisStatus() {
-        if (pollInterval) clearInterval(pollInterval);
-        pollInterval = setInterval(() => {
+        const pollInterval = setInterval(() => {
             fetch('/analysis_status')
-                .then(r => r.json())
+                .then(response => response.json())
                 .then(data => {
-                    // Update status UI (optional)
-                    if (data.current_step) {
-                        // show progress text if desired (kept minimal to avoid UI changes)
-                        const progressTextEl = document.getElementById('progress-message');
-                        if (progressTextEl) progressTextEl.textContent = data.current_step;
-                    }
                     if (data.analysis_completed) {
                         clearInterval(pollInterval);
                         analysisStatus.style.display = 'none';
                         reportSection.style.display = 'block';
-                        const rsText = document.getElementById('report-status-text');
-                        const rsEl = document.getElementById('report-status');
-                        if (rsText) rsText.textContent = data.pdf_generated ? 'Analysis completed and PDF generated.' : 'Analysis completed successfully! Ready to generate your report.';
-                        if (rsEl) rsEl.className = data.pdf_generated ? 'alert alert-success' : 'alert alert-success';
-                    }
-                    if (data.error) {
+                        
+                        if (data.error) {
+                            document.getElementById('report-status-text').textContent = 'Analysis completed with errors: ' + data.error;
+                            document.getElementById('report-status').className = 'alert alert-warning';
+                        } else {
+                            document.getElementById('report-status-text').textContent = 'Analysis completed successfully! Ready to generate your report.';
+                            document.getElementById('report-status').className = 'alert alert-success';
+                        }
+                    } else if (data.error) {
                         clearInterval(pollInterval);
+                        alert('Analysis error: ' + data.error);
                         analysisStatus.style.display = 'none';
                         startButton.disabled = false;
-                        alert('Analysis error: ' + data.error);
                     }
                 })
-                .catch(err => {
-                    console.error('Polling error:', err);
+                .catch(error => {
+                    console.error('Error polling status:', error);
                 });
-        }, 2000);
+        }, 2000); // Poll every 2 seconds
     }
+});
 
-    // Minimal implementations of helper functions (keep existing endpoints)
-    window.checkPdfStatus = function() {
-        const statusMessage = document.getElementById('pdf-status-message');
-        const downloadBtn = document.getElementById('download-pdf-btn');
-        if (statusMessage) statusMessage.innerHTML = '<div class="spinner-border spinner-border-sm text-primary me-2"></div>Checking PDF status...';
-        fetch('/api/pdf_exists')
-            .then(r => r.json())
-            .then(data => {
-                if (data.exists && (data.size || data.file_size || data.file_size > 0)) {
-                    if (statusMessage) statusMessage.innerHTML = '<div class="alert alert-success mb-0"><i class="fas fa-check-circle me-2"></i>PDF report is available! You can view or download it.</div>';
-                    if (downloadBtn) downloadBtn.style.display = 'inline-block';
-                } else {
-                    if (statusMessage) statusMessage.innerHTML = '<div class="alert alert-warning mb-0"><i class="fas fa-exclamation-triangle me-2"></i>No PDF report found. Run an analysis first to generate a report.</div>';
-                    if (downloadBtn) downloadBtn.style.display = 'none';
-                }
-            })
-            .catch(err => {
-                console.error('Error checking PDF:', err);
-                if (statusMessage) statusMessage.innerHTML = '<div class="alert alert-danger mb-0">Error checking PDF status.</div>';
-                if (downloadBtn) downloadBtn.style.display = 'none';
-            });
-    };
-
-    window.checkPdfExists = function() {
-        fetch('/api/pdf_exists')
-            .then(r => r.json())
-            .then(data => {
-                if (data.exists && (data.size || data.file_size || data.file_size > 0)) {
-                    document.getElementById('view-report-btn').style.display = 'inline-block';
-                    document.getElementById('download-report-btn').style.display = 'inline-block';
-                    document.getElementById('download-report-btn').href = '/download_pdf';
-                    document.getElementById('modal-download-btn').href = '/download_pdf';
-                    document.getElementById('report-status-text').textContent = 'Report generated successfully! You can now view or download it.';
-                    document.getElementById('report-status').className = 'alert alert-success';
-                    checkPdfStatus();
-                } else {
-                    document.getElementById('report-status-text').textContent = 'Report generation in progress... Please wait.';
-                    setTimeout(checkPdfExists, 2000);
-                }
-            })
-            .catch(err => console.error('checkPdfExists error', err));
-    };
-
-    window.generateReport = function() {
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const progressMessage = document.getElementById('progress-message');
-        const reportProgress = document.getElementById('report-progress');
-        const generateBtn = document.getElementById('generate-report-btn');
-
-        reportProgress.style.display = 'block';
-        generateBtn.disabled = true;
-
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-            if (progressBar) progressBar.style.width = progress + '%';
-            if (progressText) progressText.textContent = Math.round(progress) + '%';
-            if (progress < 30) {
-                if (progressMessage) progressMessage.textContent = 'Collecting analysis data...';
-            } else if (progress < 60) {
-                if (progressMessage) progressMessage.textContent = 'Generating charts and visualizations...';
-            } else if (progress < 90) {
-                if (progressMessage) progressMessage.textContent = 'Creating PDF report...';
+// Global functions for PDF viewing and report generation
+function checkPdfStatus() {
+    const statusMessage = document.getElementById('pdf-status-message');
+    const downloadBtn = document.getElementById('download-pdf-btn');
+    
+    statusMessage.innerHTML = '<div class="spinner-border spinner-border-sm text-primary me-2"></div>Checking PDF status...';
+    
+    fetch('/api/pdf_exists')
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists && data.size > 0) {
+                statusMessage.innerHTML = '<div class="alert alert-success mb-0"><i class="fas fa-check-circle me-2"></i>PDF report is available! You can view or download it.</div>';
+                downloadBtn.style.display = 'inline-block';
             } else {
-                if (progressMessage) progressMessage.textContent = 'Finalizing report...';
+                statusMessage.innerHTML = '<div class="alert alert-warning mb-0"><i class="fas fa-exclamation-triangle me-2"></i>No PDF report found. Run an analysis first to generate a report.</div>';
+                downloadBtn.style.display = 'none';
             }
-            if (progress >= 100) {
-                clearInterval(progressInterval);
-                if (progressMessage) progressMessage.textContent = 'Report generated successfully!';
-                setTimeout(() => { window.checkPdfExists(); }, 1000);
+        })
+        .catch(error => {
+            console.error('Error checking PDF:', error);
+            statusMessage.innerHTML = '<div class="alert alert-danger mb-0"><i class="fas fa-times-circle me-2"></i>Error checking PDF status.</div>';
+            downloadBtn.style.display = 'none';
+        });
+}
+
+function viewPdfReport() {
+    const pdfUrl = '/view_pdf';
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    document.getElementById('modal-download-btn').href = '/download_pdf';
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
+
+function generateReport() {
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const progressMessage = document.getElementById('progress-message');
+    const reportProgress = document.getElementById('report-progress');
+    const generateBtn = document.getElementById('generate-report-btn');
+    
+    // Show progress
+    reportProgress.style.display = 'block';
+    generateBtn.disabled = true;
+    
+    // Simulate progress
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        
+        progressBar.style.width = progress + '%';
+        progressText.textContent = Math.round(progress) + '%';
+        
+        if (progress < 30) {
+            progressMessage.textContent = 'Collecting analysis data...';
+        } else if (progress < 60) {
+            progressMessage.textContent = 'Generating charts and visualizations...';
+        } else if (progress < 90) {
+            progressMessage.textContent = 'Creating PDF report...';
+        } else {
+            progressMessage.textContent = 'Finalizing report...';
+        }
+        
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            progressMessage.textContent = 'Report generated successfully!';
+            
+            // Check if PDF was created
+            setTimeout(() => {
+                checkPdfExists();
+            }, 1000);
+        }
+    }, 200);
+    
+    // Actually generate the report
+    fetch('/generate_pdf')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('Report generated successfully');
+            } else {
+                console.error('Report generation failed:', data.message);
+                progressMessage.textContent = 'Report generation failed: ' + data.message;
             }
-        }, 200);
+        })
+        .catch(error => {
+            console.error('Error generating report:', error);
+            progressMessage.textContent = 'Error generating report. Please try again.';
+        });
+}
 
-        fetch('/generate_pdf')
-            .then(r => r.json())
-            .then(data => {
-                if (data.status !== 'success') {
-                    if (progressMessage) progressMessage.textContent = 'Report generation failed: ' + (data.message || 'unknown');
-                }
-            })
-            .catch(err => {
-                console.error('generateReport error', err);
-                if (progressMessage) progressMessage.textContent = 'Error generating report. Please try again.';
-            });
-    };
+function checkPdfExists() {
+    fetch('/api/pdf_exists')
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists && data.size > 0) {
+                // Show view and download buttons
+                document.getElementById('view-report-btn').style.display = 'inline-block';
+                document.getElementById('download-report-btn').style.display = 'inline-block';
+                document.getElementById('download-report-btn').href = '/download_pdf';
+                document.getElementById('modal-download-btn').href = '/download_pdf';
+                
+                // Update status
+                document.getElementById('report-status-text').textContent = 'Report generated successfully! You can now view or download it.';
+                document.getElementById('report-status').className = 'alert alert-success';
+                
+                // Also update the main PDF status
+                checkPdfStatus();
+            } else {
+                document.getElementById('report-status-text').textContent = 'Report generation in progress... Please wait.';
+                setTimeout(checkPdfExists, 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking PDF:', error);
+        });
+}
 
-    window.viewPdfReport = function() {
-        document.getElementById('pdf-iframe').src = '/view_pdf';
-        document.getElementById('modal-download-btn').href = '/download_pdf';
-        const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
-        modal.show();
-    };
+function viewReport() {
+    const pdfUrl = '/view_pdf';
+    document.getElementById('pdf-iframe').src = pdfUrl;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    modal.show();
+}
 
-    window.resetAnalysis = function() {
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-        document.querySelectorAll('.analysis-card').forEach(card => card.classList.remove('selected'));
-        document.getElementById('analysis-status').style.display = 'none';
-        document.getElementById('report-section').style.display = 'none';
-        startButton.disabled = true;
-        startButton.innerHTML = '<i class="fas fa-play me-2"></i>Start Analysis';
-        document.getElementById('view-report-btn').style.display = 'none';
-        document.getElementById('download-report-btn').style.display = 'none';
-        const rptProg = document.getElementById('report-progress');
-        if (rptProg) rptProg.style.display = 'none';
-        const genBtn = document.getElementById('generate-report-btn');
-        if (genBtn) genBtn.disabled = false;
-        // attempt backend reset
-        fetch('/reset_analysis').catch(() => {});
-    };
+function resetAnalysis() {
+    // Reset checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.analysis-card').forEach(card => card.classList.remove('selected'));
+    
+    // Reset UI
+    document.getElementById('analysis-status').style.display = 'none';
+    document.getElementById('report-section').style.display = 'none';
+    document.getElementById('start-analysis').disabled = true;
+    document.getElementById('start-analysis').innerHTML = '<i class="fas fa-play me-2"></i>Start Analysis';
+    
+    // Reset report buttons
+    document.getElementById('view-report-btn').style.display = 'none';
+    document.getElementById('download-report-btn').style.display = 'none';
+    document.getElementById('report-progress').style.display = 'none';
+    document.getElementById('generate-report-btn').disabled = false;
+}
 
-    window.testReport = function() {
-        fetch('/test_pdf').then(r => r.json()).then(d => {
-            if (d.status === 'success') { alert('Test report created successfully.'); window.checkPdfExists(); }
-            else alert('Test report failed: ' + (d.message || 'unknown'));
-        }).catch(err => alert('Error: ' + err));
-    };
-
-    window.forceGenerateReport = function() {
-        fetch('/force_generate_pdf').then(r => r.json()).then(d => {
-            if (d.status === 'success') { alert('Force generation succeeded.'); window.checkPdfStatus(); }
-            else alert('Force generation failed: ' + (d.message || 'unknown'));
-        }).catch(err => alert('Error: ' + err));
-    };
-
-    window.checkPreviousReportExists = function() {
-        fetch('/download_previous_pdf', { method: 'HEAD' })
-            .then(response => {
-                const el = document.getElementById('previous-report-section');
-                if (response.ok && el) el.style.display = 'block';
-            })
-            .catch(() => {
-                const el = document.getElementById('previous-report-section');
-                if (el) el.style.display = 'none';
-            });
-    };
-
-    // Initial checks
-    if (typeof checkPdfStatus === 'function') checkPdfStatus();
-    if (typeof window.checkPreviousReportExists === 'function') window.checkPreviousReportExists();
+// Add developer credit
+document.addEventListener('DOMContentLoaded', function() {
+    // Add developer credit to the page
+    const developerCredit = document.createElement('div');
+    developerCredit.className = 'text-center mt-4';
+    developerCredit.innerHTML = `
+        <hr class="my-4">
+        <p class="text-muted small">
+            <i class="fas fa-code me-2"></i>
+            Developed by <strong class="text-primary">Dasini Jayakody</strong> | 
+            <a href="mailto:dasinijayakody@gmail.com" class="text-muted">dasinijayakody@gmail.com</a>
+        </p>
+        <div class="mt-2">
+            <a href="https://www.linkedin.com/in/dasini-jayakody-79802625a" target="_blank" class="text-muted me-2" title="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/DasiniJayakody" target="_blank" class="text-muted me-2" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.facebook.com/dasini.jayakody?mibextid=ZbWKwL" target="_blank" class="text-muted me-2" title="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/dasi_jay_?igsh=YXVxeWNxNXFtODNz" target="_blank" class="text-muted me-2" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    `;
+    
+    // Insert before the closing main tag
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+        mainElement.appendChild(developerCredit);
+    }
 });
 </script>
-{% endblock %}
+{% endblock %} 
