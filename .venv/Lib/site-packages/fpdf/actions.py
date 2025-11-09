@@ -53,10 +53,10 @@ class NamedAction(Action):
 
 
 class GoToAction(Action):
-    "As of 2022, this does not seem honored by neither Adobe Acrobat nor Sumatra readers."
-
     def __init__(self, dest, next_action=None):
         super().__init__(next_action)
+        if isinstance(dest, str) and dest.startswith("#"):
+            dest = PDFString(dest[1:], encrypt=True)
         self.dest = dest
 
     def serialize(self, _security_handler=None, _obj_id=None):

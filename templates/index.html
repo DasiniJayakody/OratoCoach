@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - OratoCoach{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Welcome to OratoCoach</h1>
+        <p class="hero-subtitle">AI-powered presentation analysis to improve your public speaking.</p>
+        <a href="{{ url_for('analysis') }}" class="btn btn-primary">Start Analysis</a>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card p-4">
+                <h3>How it works</h3>
+                <p class="text-muted">Run an analysis of your recorded presentation to get feedback on eye contact, gestures and posture. Generate a PDF summary with charts and recommendations.</p>
+                <a href="{{ url_for('about') }}" class="btn btn-outline-primary">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
